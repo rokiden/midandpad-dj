@@ -167,6 +167,42 @@ class MidandpadDB//else throw exception
             values.put("zeropos", 0)
             values.put("defval", 0)
             db.insertOrThrow("Bars", null, values)
+
+            values.put("presetId", presetid)
+            values.put("number", 5)
+            values.put("name", "Deck2 Volume")
+            values.put("control", 7)
+            values.put("rz", 0)
+            values.put("zeropos", 0)
+            values.put("defval", 80)
+            db.insertOrThrow("Bars", null, values)
+
+            values.put("presetId", presetid)
+            values.put("number", 6)
+            values.put("name", "Deck2 Low")
+            values.put("control", 11)
+            values.put("rz", 0)
+            values.put("zeropos", 0)
+            values.put("defval", 127)
+            db.insertOrThrow("Bars", null, values)
+
+            values.put("presetId", presetid)
+            values.put("number", 7)
+            values.put("name", "Deck2 Mid")
+            values.put("control", 91)
+            values.put("rz", 0)
+            values.put("zeropos", 0)
+            values.put("defval", 10)
+            db.insertOrThrow("Bars", null, values)
+
+            values.put("presetId", presetid)
+            values.put("number", 8)
+            values.put("name", "Deck2 High")
+            values.put("control", 93)
+            values.put("rz", 0)
+            values.put("zeropos", 0)
+            values.put("defval", 0)
+            db.insertOrThrow("Bars", null, values)
         }
         catch (e: Exception){
             val msg = mContext.getString(R.string.sinserterror).replace(
@@ -262,6 +298,30 @@ class MidandpadDB//else throw exception
             values.put ("note", 51)
             values.put("chordnotes", "71;75;78")
             db.insertOrThrow("Buttons", null, values)
+
+            values.put("number", 41)
+            values.put("name", "Deck2 Loop-")
+            values.put ("note", 52)
+            values.put("chordnotes", "72;76;79")
+            db.insertOrThrow("Buttons", null, values)
+
+            values.put("number", 42)
+            values.put("name", "Deck2 Sync")
+            values.put ("note", 53)
+            values.put("chordnotes", "73;77;80")
+            db.insertOrThrow("Buttons", null, values)
+
+            values.put("number", 43)
+            values.put("name", "Deck2 Jump<")
+            values.put ("note", 54)
+            values.put("chordnotes", "74;78;81")
+            db.insertOrThrow("Buttons", null, values)
+
+            values.put("number", 44)
+            values.put("name", "Deck2 Jump>")
+            values.put ("note", 55)
+            values.put("chordnotes", "75;79;82")
+            db.insertOrThrow("Buttons", null, values)
         }
         catch (e: Exception){
             val msg = mContext.getString(R.string.sinserterror).replace(
@@ -315,11 +375,18 @@ class MidandpadDB//else throw exception
                 "chordnotes", "rollnotetime", "triplet", "controloff", "chordoff", "notetoggle"),
             "presetId=?", arrayOf(presetid.toString()), null, null,
             null, null)
-        cursor.moveToFirst()
+        if (!cursor.moveToFirst()) {
+            cursor.close()
+            db.close()
+            return
+        }
         do {
             val number = cursor.getInt(0)
             val row:Int = (number/10) - 1
             val col:Int = (number%10) - 1
+            if (row !in buttons.indices || col !in buttons[row].indices) {
+                continue
+            }
             buttons[row][col].mNumber = number
             buttons[row][col].setName(cursor.getString(1))
             buttons[row][col].setmType(MidiHelper.EventTypes.entries[cursor.getInt(2)])
@@ -345,9 +412,16 @@ class MidandpadDB//else throw exception
             arrayOf("number", "name", "control", "rz", "zeropos", "defval"),
             "presetId=?", arrayOf(presetid.toString()), null, null,
             null, null)
-        cursor.moveToFirst()
+        if (!cursor.moveToFirst()) {
+            cursor.close()
+            db.close()
+            return
+        }
         do {
             val number = cursor.getInt(0) -1
+            if (number !in bars.indices) {
+                continue
+            }
             bars[number].mNumber = number + 1
             bars[number].setName(cursor.getString(1))
             bars[number].mRZ = (cursor.getInt(3) == 1)
@@ -487,8 +561,8 @@ class MidandpadDB//else throw exception
     private fun updateButtons (db: SQLiteDatabase, id: Long, buttons: Array<Array<EventButton>>){
         val newvalues = ContentValues ()
         try {
-            for (i in 0..2){
-                for (j in 0..3){
+            for (i in 0 until MainScreen.BUTTONROWS){
+                for (j in 0 until MainScreen.BUTTONCOLS){
                     val b = buttons[i][j]
                     val number = (i+1)*10 + j+1
                     newvalues.put("name", b.mName)
@@ -506,7 +580,10 @@ class MidandpadDB//else throw exception
                     newvalues.put("notetoggle", if (b.mNoteToggle) 1 else 0)
                     if (db.update("Buttons", newvalues, "presetId=? and number=?",
                         arrayOf(id.toString(), number.toString())) == 0){
-                        throw SQLiteException ("Error in update button: $id, $number")
+                        val insertValues = ContentValues(newvalues)
+                        insertValues.put("presetId", id)
+                        insertValues.put("number", number)
+                        db.insertOrThrow("Buttons", null, insertValues)
                     }
                 }
             }
@@ -519,7 +596,7 @@ class MidandpadDB//else throw exception
     private fun updateBars (db: SQLiteDatabase, id: Long, bars: Array<CCBar>){
         val newvalues = ContentValues ()
         try {
-            for (i in 0..3){
+            for (i in 0 until MainScreen.CONTROLSCOUNT){
                 val number = i + 1
                 val b = bars[i]
                 newvalues.put("name", b.mName)
@@ -530,7 +607,10 @@ class MidandpadDB//else throw exception
                 if (db.update("Bars", newvalues, "presetId=? and number=?",
                     arrayOf(id.toString(), number.toString())) == 0
                     ){
-                    throw SQLiteException ("Error in update bar: $id, $number")
+                    val insertValues = ContentValues(newvalues)
+                    insertValues.put("presetId", id)
+                    insertValues.put("number", number)
+                    db.insertOrThrow("Bars", null, insertValues)
                 }
             }
         }
@@ -587,8 +667,8 @@ class MidandpadDB//else throw exception
         val values = ContentValues ()
         values.put("presetId", id)
         try {
-            for (i in 0..2){
-                for (j in 0..3){
+            for (i in 0 until MainScreen.BUTTONROWS){
+                for (j in 0 until MainScreen.BUTTONCOLS){
                     val b = buttons[i][j]
                     val number = (i+1)*10 + j+1
                     values.put("number", number)
@@ -618,7 +698,7 @@ class MidandpadDB//else throw exception
         val values = ContentValues ()
         values.put("presetId", id)
         try {
-            for (i in 0..3) {
+            for (i in 0 until MainScreen.CONTROLSCOUNT) {
                 val b = bars[i]
                 values.put("number", i + 1)
                 values.put("name", b.mName)

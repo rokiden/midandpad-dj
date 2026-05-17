@@ -30,9 +30,9 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mCurrPresetLabel: TextView
 
     companion object{
-        public const val BUTTONROWS = 3
+        public const val BUTTONROWS = 4
         public const val BUTTONCOLS = 4
-        public const val CONTROLSCOUNT = 4
+        public const val CONTROLSCOUNT = 8
         private lateinit var mEventButtons: Array<Array<EventButton>>
         private lateinit var mControlBars: Array<CCBar>
         fun clockTick (){
@@ -101,7 +101,11 @@ class MainScreen (context: Context): ConstraintLayout(context) {
             arrayOf(findViewById(R.id.button31) as EventButton,
                 findViewById (R.id.button32) as EventButton,
                 findViewById(R.id.button33) as EventButton,
-                findViewById(R.id.button34) as EventButton))
+                findViewById(R.id.button34) as EventButton),
+            arrayOf(findViewById(R.id.button41) as EventButton,
+                findViewById (R.id.button42) as EventButton,
+                findViewById(R.id.button43) as EventButton,
+                findViewById(R.id.button44) as EventButton))
         mEditButton.setBackgroundResource(android.R.drawable.btn_default)
         for (i in 0..BUTTONROWS - 1){
             for (j in 0..BUTTONCOLS - 1)
@@ -110,7 +114,11 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mControlBars = arrayOf(findViewById(R.id.ctrl1) as CCBar,
             findViewById(R.id.ctrl2) as CCBar,
             findViewById(R.id.ctrl3) as CCBar,
-            findViewById(R.id.ctrl4) as CCBar)
+            findViewById(R.id.ctrl4) as CCBar,
+            findViewById(R.id.deck2Volume) as CCBar,
+            findViewById(R.id.deck2EqLow) as CCBar,
+            findViewById(R.id.deck2EqMid) as CCBar,
+            findViewById(R.id.deck2EqHigh) as CCBar)
 
 
 
@@ -118,6 +126,10 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mControlBars[1].setLabelWidget(findViewById(R.id.label2))
         mControlBars[2].setLabelWidget(findViewById(R.id.label3))
         mControlBars[3].setLabelWidget(findViewById(R.id.label4))
+        mControlBars[4].setLabelWidget(findViewById(R.id.label5))
+        mControlBars[5].setLabelWidget(findViewById(R.id.label6))
+        mControlBars[6].setLabelWidget(findViewById(R.id.label7))
+        mControlBars[7].setLabelWidget(findViewById(R.id.label8))
         for (i in 0..CONTROLSCOUNT -1){
             mControlBars[i].mNumber = i+1
         }
