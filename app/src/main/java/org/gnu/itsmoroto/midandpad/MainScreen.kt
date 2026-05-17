@@ -213,7 +213,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     }
 
     fun setPresetName (name: String){
-        mCurrPresetLabel.text = "${resources.getString(R.string.spreset)}: ${name}"
+        mCurrPresetLabel.text = name
     }
 
 }

@@ -96,6 +96,17 @@
             android:scaleType="fitCenter"
             android:src="@drawable/explore_icon" />
 
+        <TextView
+            android:id="@+id/labelpreset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:maxWidth="64dp"
+            android:singleLine="true"
+            android:textColor="@color/textcolor"
+            android:textSize="@dimen/statusclocksize"
+            tools:text="default" />
+
         <ImageButton
             android:id="@+id/buttonsave"
             android:layout_width="@dimen/menubuttonsize"
