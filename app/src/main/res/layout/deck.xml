@@ -27,10 +27,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <org.gnu.itsmoroto.midandpad.EventButton
                 android:id="@+id/btn_R1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/midibuttonmargin"
                 android:minWidth="56dip"
                 android:minHeight="60dip"
                 android:text="R"
@@ -66,10 +67,11 @@
             app:layout_constraintStart_toEndOf="@+id/block_eq1"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <org.gnu.itsmoroto.midandpad.EventButton
                 android:id="@+id/btn_R2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/midibuttonmargin"
                 android:minWidth="56dip"
                 android:minHeight="60dip"
                 android:text="R"
@@ -105,10 +107,11 @@
             app:layout_constraintStart_toEndOf="@+id/block_eq2"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
+            <org.gnu.itsmoroto.midandpad.EventButton
                 android:id="@+id/btn_R3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/midibuttonmargin"
                 android:minWidth="56dip"
                 android:minHeight="60dip"
                 android:text="R"
@@ -146,20 +149,22 @@
         app:layout_constraintTop_toBottomOf="@+id/block_eqs"
         app:layout_constraintVertical_weight="1">
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_loop_in"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="Loop In"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_loop_out"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_loop_out"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="Loop Out"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -167,10 +172,11 @@
             app:layout_constraintStart_toEndOf="@+id/btn_loop_in"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_loop_auto"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="Loop Auto"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -189,40 +195,44 @@
         app:layout_constraintTop_toBottomOf="@+id/block_loop"
         app:layout_constraintVertical_weight="1">
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_jump_back_16"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="&lt;&lt;16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_jump_back_4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_jump_back_4"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="&lt;&lt;4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_jump_forward_4"
             app:layout_constraintStart_toEndOf="@+id/btn_jump_back_16"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_jump_forward_4"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="4>>"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_jump_forward_16"
             app:layout_constraintStart_toEndOf="@+id/btn_jump_back_4"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_jump_forward_16"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="16>>"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -240,40 +250,44 @@
         app:layout_constraintTop_toBottomOf="@+id/block_jump"
         app:layout_constraintVertical_weight="1">
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_hotcue_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_hotcue_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_hotcue_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_hotcue_3"
             app:layout_constraintStart_toEndOf="@+id/btn_hotcue_1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_hotcue_3"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_hotcue_4"
             app:layout_constraintStart_toEndOf="@+id/btn_hotcue_2"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_hotcue_4"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -291,30 +305,33 @@
         app:layout_constraintTop_toBottomOf="@+id/block_hotcue"
         app:layout_constraintVertical_weight="1">
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_play_pause"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="Play/Pause"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_cue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_cue"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="CUE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_sync"
             app:layout_constraintStart_toEndOf="@+id/btn_play_pause"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_sync"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="Sync"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -16,10 +16,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="15">
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_cue_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="CUE 1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_cue_m"
@@ -27,10 +28,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_cue_m"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="CUE M"
             app:layout_constraintStart_toEndOf="@+id/btn_cue_1"
             app:layout_constraintEnd_toStartOf="@+id/btn_cue_2"
@@ -38,10 +40,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <Button
+        <org.gnu.itsmoroto.midandpad.EventButton
             android:id="@+id/btn_cue_2"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
             android:text="CUE 2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
