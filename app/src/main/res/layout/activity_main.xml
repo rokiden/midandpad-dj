@@ -253,20 +253,20 @@
             android:paddingTop="8dp">
 
             <Button
-                android:id="@+id/cue_deck1"
+                android:id="@+id/cueDeck1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cue Deck 1" />
 
             <Button
-                android:id="@+id/cue_master"
+                android:id="@+id/cueMaster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Cue Master" />
 
             <Button
-                android:id="@+id/cue_deck2"
+                android:id="@+id/cueDeck2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -365,7 +365,7 @@
                             android:textColor="@color/white" />
 
                         <Button
-                            android:id="@+id/deck1_eq_low_reset"
+                            android:id="@+id/deck1EqLowReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Low" />
@@ -403,7 +403,7 @@
                             android:textColor="@color/white" />
 
                         <Button
-                            android:id="@+id/deck1_eq_mid_reset"
+                            android:id="@+id/deck1EqMidReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Mid" />
@@ -441,7 +441,7 @@
                             android:textColor="@color/white" />
 
                         <Button
-                            android:id="@+id/deck1_eq_high_reset"
+                            android:id="@+id/deck1EqHighReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset High" />
@@ -478,7 +478,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
-                            android:id="@+id/deck2_volume"
+                            android:id="@+id/deck2Volume"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -509,7 +509,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
-                            android:id="@+id/deck2_eq_low"
+                            android:id="@+id/deck2EqLow"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -532,7 +532,7 @@
                             android:textColor="@color/white" />
 
                         <Button
-                            android:id="@+id/deck2_eq_low_reset"
+                            android:id="@+id/deck2EqLowReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Low" />
@@ -546,7 +546,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
-                            android:id="@+id/deck2_eq_mid"
+                            android:id="@+id/deck2EqMid"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -569,7 +569,7 @@
                             android:textColor="@color/white" />
 
                         <Button
-                            android:id="@+id/deck2_eq_mid_reset"
+                            android:id="@+id/deck2EqMidReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Mid" />
@@ -583,7 +583,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
-                            android:id="@+id/deck2_eq_high"
+                            android:id="@+id/deck2EqHigh"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -606,7 +606,7 @@
                             android:textColor="@color/white" />
 
                         <Button
-                            android:id="@+id/deck2_eq_high_reset"
+                            android:id="@+id/deck2EqHighReset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset High" />
@@ -691,45 +691,49 @@
                 android:text="Loop +"
                 android:textSize="@dimen/midibuttonsize" />
 
-            <Button
-                android:id="@+id/deck2_loop_minus"
+            <org.gnu.itsmoroto.midandpad.EventButton
+                android:id="@+id/deck2LoopMinus"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_margin="4dp"
                 android:layout_rowWeight="1"
-                android:text="Loop -" />
+                android:text="Loop -"
+                android:textSize="@dimen/midibuttonsize" />
 
-            <Button
-                android:id="@+id/deck2_sync"
+            <org.gnu.itsmoroto.midandpad.EventButton
+                android:id="@+id/deck2Sync"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_margin="4dp"
                 android:layout_rowWeight="1"
-                android:text="Sync" />
+                android:text="Sync"
+                android:textSize="@dimen/midibuttonsize" />
 
-            <Button
-                android:id="@+id/deck2_jump_left"
+            <org.gnu.itsmoroto.midandpad.EventButton
+                android:id="@+id/deck2JumpLeft"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_margin="4dp"
                 android:layout_rowWeight="1"
-                android:text="Jump <" />
+                android:text="Jump <"
+                android:textSize="@dimen/midibuttonsize" />
 
-            <Button
-                android:id="@+id/deck2_jump_right"
+            <org.gnu.itsmoroto.midandpad.EventButton
+                android:id="@+id/deck2JumpRight"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_margin="4dp"
                 android:layout_rowWeight="1"
-                android:text="Jump >" />
+                android:text="Jump >"
+                android:textSize="@dimen/midibuttonsize" />
         </GridLayout>
     </LinearLayout>
 </LinearLayout>
