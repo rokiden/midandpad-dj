@@ -135,10 +135,10 @@ class CCBar : BoxedVertical, BoxedVertical.OnValuesChangeListener {
         return mControl
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         if ((MainActivity.mConfigParams.mMode == ConfigParams.EDIT_MODE ||
                     !MainActivity.mMidi.haveConnection()) &&
-            event!!.action != MotionEvent.ACTION_UP)
+            event.action != MotionEvent.ACTION_UP)
             return true
 
         return super.onTouchEvent(event)
