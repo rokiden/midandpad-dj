@@ -352,7 +352,7 @@ class MidandpadDB//else throw exception
             bars[number].setName(cursor.getString(1))
             bars[number].mRZ = (cursor.getInt(3) == 1)
             bars[number].mZeroPos = cursor.getInt(4)
-            bars[number].value = cursor.getInt(5)
+            bars[number].value = cursor.getInt(5).toFloat()
             bars[number].setControl(cursor.getInt(2))
         }while (cursor.moveToNext())
         cursor.close()
