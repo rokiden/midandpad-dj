@@ -226,7 +226,7 @@
         
     <org.gnu.itsmoroto.midandpad.CCBar
         android:id="@+id/ctrl1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:value="64"
         android:valueFrom="0"
@@ -240,7 +240,7 @@
         app:layout_constraintTop_toBottomOf="@+id/statuslayout"/>
     <org.gnu.itsmoroto.midandpad.CCBar
         android:id="@+id/ctrl2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:value="64"
         android:valueFrom="0"
@@ -255,7 +255,7 @@
 
     <org.gnu.itsmoroto.midandpad.CCBar
         android:id="@+id/ctrl3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:value="64"
         android:valueFrom="0"
@@ -269,7 +269,7 @@
         app:layout_constraintTop_toBottomOf="@+id/label1"/>
     <org.gnu.itsmoroto.midandpad.CCBar
         android:id="@+id/ctrl4"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:value="64"
         android:valueFrom="0"
