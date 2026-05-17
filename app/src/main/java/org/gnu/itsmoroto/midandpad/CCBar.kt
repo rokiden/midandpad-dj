@@ -23,6 +23,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
     private var mControl: Int = 0 //Special controls, like pitch bend are negatives.
     var mRZ: Boolean = false
     var mZeroPos: Int = 0
+    var mDefaultValue: Float = 64f
     private var mCurrpos: Int = 0
     var misEdit: Boolean = false
     public fun setLabelWidget (label:TextView){

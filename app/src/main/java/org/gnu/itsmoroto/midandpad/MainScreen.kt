@@ -3,6 +3,7 @@ package org.gnu.itsmoroto.midandpad
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
@@ -13,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainScreen (context: Context): ConstraintLayout(context) {
 
+    private val mEqResetDefaultValue = 64f
 
 
 
@@ -89,9 +91,6 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
         mEventButtons = arrayOf(
             // Deck 1
-            deck1.findViewById(R.id.btn_R1) as EventButton,
-            deck1.findViewById(R.id.btn_R2) as EventButton,
-            deck1.findViewById(R.id.btn_R3) as EventButton,
             deck1.findViewById(R.id.btn_loop_in) as EventButton,
             deck1.findViewById(R.id.btn_loop_out) as EventButton,
             deck1.findViewById(R.id.btn_loop_auto) as EventButton,
@@ -107,9 +106,6 @@ class MainScreen (context: Context): ConstraintLayout(context) {
             deck1.findViewById(R.id.btn_cue) as EventButton,
             deck1.findViewById(R.id.btn_sync) as EventButton,
             // Deck 2
-            deck2.findViewById(R.id.btn_R1) as EventButton,
-            deck2.findViewById(R.id.btn_R2) as EventButton,
-            deck2.findViewById(R.id.btn_R3) as EventButton,
             deck2.findViewById(R.id.btn_loop_in) as EventButton,
             deck2.findViewById(R.id.btn_loop_out) as EventButton,
             deck2.findViewById(R.id.btn_loop_auto) as EventButton,
@@ -147,8 +143,31 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
         mControlBars.forEach { it.setLabelWidget(TextView(context)) }
         mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
+
+        setupEqResetButton(deck1, R.id.btn_R1, R.id.slider_eq1)
+        setupEqResetButton(deck1, R.id.btn_R2, R.id.slider_eq2)
+        setupEqResetButton(deck1, R.id.btn_R3, R.id.slider_eq3)
+        setupEqResetButton(deck2, R.id.btn_R1, R.id.slider_eq1)
+        setupEqResetButton(deck2, R.id.btn_R2, R.id.slider_eq2)
+        setupEqResetButton(deck2, R.id.btn_R3, R.id.slider_eq3)
+
         configControls()
     }
+
+    private fun setupEqResetButton(deck: ConstraintLayout, buttonId: Int, sliderId: Int) {
+        val resetButton = deck.findViewById<Button>(buttonId)
+        val slider = deck.findViewById<CCBar>(sliderId)
+        resetButton.setOnClickListener {
+            val targetValue = if (slider.mDefaultValue >= slider.valueFrom &&
+                slider.mDefaultValue <= slider.valueTo) {
+                slider.mDefaultValue
+            } else {
+                mEqResetDefaultValue
+            }
+            slider.value = targetValue
+        }
+    }
+
     fun configControls (){
         MainActivity.mConfigParams.configButtons(mEventButtons)
         MainActivity.mConfigParams.configBars (mControlBars)

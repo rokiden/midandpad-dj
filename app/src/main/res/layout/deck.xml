@@ -27,11 +27,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <org.gnu.itsmoroto.midandpad.EventButton
+            <Button
                 android:id="@+id/btn_R1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/midibuttonmargin"
                 android:minWidth="56dip"
                 android:minHeight="60dip"
                 android:text="R"
@@ -67,11 +66,10 @@
             app:layout_constraintStart_toEndOf="@+id/block_eq1"
             app:layout_constraintTop_toTopOf="parent">
 
-            <org.gnu.itsmoroto.midandpad.EventButton
+            <Button
                 android:id="@+id/btn_R2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/midibuttonmargin"
                 android:minWidth="56dip"
                 android:minHeight="60dip"
                 android:text="R"
@@ -107,11 +105,10 @@
             app:layout_constraintStart_toEndOf="@+id/block_eq2"
             app:layout_constraintTop_toTopOf="parent">
 
-            <org.gnu.itsmoroto.midandpad.EventButton
+            <Button
                 android:id="@+id/btn_R3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/midibuttonmargin"
                 android:minWidth="56dip"
                 android:minHeight="60dip"
                 android:text="R"
