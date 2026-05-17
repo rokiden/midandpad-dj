@@ -143,7 +143,8 @@
         app:layout_constraintBottom_toTopOf="@+id/block_jump"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_eqs">
+        app:layout_constraintTop_toBottomOf="@+id/block_eqs"
+        app:layout_constraintVertical_weight="1">
 
         <Button
             android:id="@+id/btn_loop_in"
@@ -185,7 +186,8 @@
         app:layout_constraintBottom_toTopOf="@+id/block_hotcue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_loop">
+        app:layout_constraintTop_toBottomOf="@+id/block_loop"
+        app:layout_constraintVertical_weight="1">
 
         <Button
             android:id="@+id/btn_jump_back_16"
@@ -235,7 +237,8 @@
         app:layout_constraintBottom_toTopOf="@+id/block_transport"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_jump">
+        app:layout_constraintTop_toBottomOf="@+id/block_jump"
+        app:layout_constraintVertical_weight="1">
 
         <Button
             android:id="@+id/btn_hotcue_1"
@@ -285,7 +288,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_hotcue">
+        app:layout_constraintTop_toBottomOf="@+id/block_hotcue"
+        app:layout_constraintVertical_weight="1">
 
         <Button
             android:id="@+id/btn_play_pause"
