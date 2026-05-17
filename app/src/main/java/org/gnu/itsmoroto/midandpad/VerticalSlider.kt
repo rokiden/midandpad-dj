@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import com.google.android.material.slider.Slider
 
-class VerticalSlider : Slider {
+open class VerticalSlider : Slider {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)

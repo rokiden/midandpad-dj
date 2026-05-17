@@ -3,7 +3,6 @@ package org.gnu.itsmoroto.midandpad
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.widget.TextView
 import com.google.android.material.slider.Slider
 
@@ -131,14 +130,5 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
 
     fun getControl (): Int{
         return mControl
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if ((MainActivity.mConfigParams.mMode == ConfigParams.EDIT_MODE ||
-                    !MainActivity.mMidi.haveConnection()) &&
-            event!!.action != MotionEvent.ACTION_UP)
-            return true
-
-        return super.onTouchEvent(event)
     }
 }
