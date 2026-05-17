@@ -8,21 +8,9 @@ import com.google.android.material.slider.Slider
 
 open class VerticalSlider : Slider {
 
-    constructor(context: Context) : super(context) {
-        init()
-    }
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    private fun init() {
-        // Disable the label (bubble) behavior since it doesn't rotate with the slider
-        // LABEL_GONE = 0 in BaseSlider
-        labelBehavior = 0
-    }
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(h, w, oldh, oldw)
