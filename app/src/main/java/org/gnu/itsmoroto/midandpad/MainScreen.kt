@@ -30,19 +30,13 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mCurrPresetLabel: TextView
 
     companion object{
-        public const val BUTTONROWS = 3
-        public const val BUTTONCOLS = 4
-        public const val CONTROLSCOUNT = 4
-        private lateinit var mEventButtons: Array<Array<EventButton>>
+        public const val CONTROLSCOUNT = 8
+        private lateinit var mEventButtons: Array<EventButton>
         private lateinit var mControlBars: Array<CCBar>
         fun clockTick (){
-
-                for (arr in mEventButtons) {
-                    for (b in arr) {
-
-                                b.tick()
-                    }
-                }
+            for (b in mEventButtons) {
+                b.tick()
+            }
         }
     }
 
@@ -89,38 +83,70 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
         mCurrPresetLabel = findViewById(R.id.labelpreset)
 
+        val deck1 = findViewById<ConstraintLayout>(R.id.deck1)
+        val deck2 = findViewById<ConstraintLayout>(R.id.deck2)
+        val mixer = findViewById<ConstraintLayout>(R.id.mixer)
+
         mEventButtons = arrayOf(
-            arrayOf(findViewById(R.id.button11) as EventButton,
-                findViewById (R.id.button12) as EventButton,
-                findViewById(R.id.button13) as EventButton,
-                findViewById(R.id.button14) as EventButton),
-            arrayOf(findViewById(R.id.button21) as EventButton,
-                findViewById (R.id.button22) as EventButton,
-                findViewById(R.id.button23) as EventButton,
-                findViewById(R.id.button24) as EventButton),
-            arrayOf(findViewById(R.id.button31) as EventButton,
-                findViewById (R.id.button32) as EventButton,
-                findViewById(R.id.button33) as EventButton,
-                findViewById(R.id.button34) as EventButton))
+            // Deck 1
+            deck1.findViewById(R.id.btn_R1) as EventButton,
+            deck1.findViewById(R.id.btn_R2) as EventButton,
+            deck1.findViewById(R.id.btn_R3) as EventButton,
+            deck1.findViewById(R.id.btn_loop_in) as EventButton,
+            deck1.findViewById(R.id.btn_loop_out) as EventButton,
+            deck1.findViewById(R.id.btn_loop_auto) as EventButton,
+            deck1.findViewById(R.id.btn_jump_back_16) as EventButton,
+            deck1.findViewById(R.id.btn_jump_back_4) as EventButton,
+            deck1.findViewById(R.id.btn_jump_forward_4) as EventButton,
+            deck1.findViewById(R.id.btn_jump_forward_16) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_1) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_2) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_3) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_4) as EventButton,
+            deck1.findViewById(R.id.btn_play_pause) as EventButton,
+            deck1.findViewById(R.id.btn_cue) as EventButton,
+            deck1.findViewById(R.id.btn_sync) as EventButton,
+            // Deck 2
+            deck2.findViewById(R.id.btn_R1) as EventButton,
+            deck2.findViewById(R.id.btn_R2) as EventButton,
+            deck2.findViewById(R.id.btn_R3) as EventButton,
+            deck2.findViewById(R.id.btn_loop_in) as EventButton,
+            deck2.findViewById(R.id.btn_loop_out) as EventButton,
+            deck2.findViewById(R.id.btn_loop_auto) as EventButton,
+            deck2.findViewById(R.id.btn_jump_back_16) as EventButton,
+            deck2.findViewById(R.id.btn_jump_back_4) as EventButton,
+            deck2.findViewById(R.id.btn_jump_forward_4) as EventButton,
+            deck2.findViewById(R.id.btn_jump_forward_16) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_1) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_2) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_3) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_4) as EventButton,
+            deck2.findViewById(R.id.btn_play_pause) as EventButton,
+            deck2.findViewById(R.id.btn_cue) as EventButton,
+            deck2.findViewById(R.id.btn_sync) as EventButton,
+            // Mixer
+            mixer.findViewById(R.id.btn_cue_1) as EventButton,
+            mixer.findViewById(R.id.btn_cue_m) as EventButton,
+            mixer.findViewById(R.id.btn_cue_2) as EventButton
+        )
         mEditButton.setBackgroundResource(android.R.drawable.btn_default)
-        for (i in 0..BUTTONROWS - 1){
-            for (j in 0..BUTTONCOLS - 1)
-                mEventButtons[i][j].mNumber = (i+1)*10 + j+1
-        }
-        mControlBars = arrayOf(findViewById(R.id.ctrl1) as CCBar,
-            findViewById(R.id.ctrl2) as CCBar,
-            findViewById(R.id.ctrl3) as CCBar,
-            findViewById(R.id.ctrl4) as CCBar)
+        mEventButtons.forEachIndexed { i, b -> b.mNumber = i + 1 }
+        mControlBars = arrayOf(
+            // Deck 1
+            deck1.findViewById(R.id.slider_eq1) as CCBar,
+            deck1.findViewById(R.id.slider_eq2) as CCBar,
+            deck1.findViewById(R.id.slider_eq3) as CCBar,
+            // Deck 2
+            deck2.findViewById(R.id.slider_eq1) as CCBar,
+            deck2.findViewById(R.id.slider_eq2) as CCBar,
+            deck2.findViewById(R.id.slider_eq3) as CCBar,
+            // Mixer
+            mixer.findViewById(R.id.slider_deck_1) as CCBar,
+            mixer.findViewById(R.id.slider_deck_2) as CCBar
+        )
 
-
-
-        mControlBars[0].setLabelWidget(findViewById(R.id.label1))
-        mControlBars[1].setLabelWidget(findViewById(R.id.label2))
-        mControlBars[2].setLabelWidget(findViewById(R.id.label3))
-        mControlBars[3].setLabelWidget(findViewById(R.id.label4))
-        for (i in 0..CONTROLSCOUNT -1){
-            mControlBars[i].mNumber = i+1
-        }
+        mControlBars.forEach { it.setLabelWidget(TextView(context)) }
+        mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
         configControls()
     }
     fun configControls (){

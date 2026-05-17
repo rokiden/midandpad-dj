@@ -138,7 +138,7 @@ class BtnConfigScreen(context: Context): ConstraintLayout(context)  {
     fun setButton (btn: EventButton){
         val title = StringBuilder ()
         title.append(context.getString(R.string.sbuttonconfig), " ",
-            btn.mNumber/10, " ", btn.mNumber%10)
+            btn.mNumber)
         mTitle.text = title
         mCurrButton = btn
         mNameText.text = btn.mName.toEditable()
