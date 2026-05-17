@@ -135,17 +135,19 @@ class MidandpadDB//else throw exception
             values.put("presetId", presetid)
             values.put("rz", 0)
             values.put("zeropos", 0)
-            // Deck 1
-            values.put("number", 1); values.put("name", "EQ Hi 1");  values.put("control", 116); values.put("defval", 64);  db.insertOrThrow("Bars", null, values)
-            values.put("number", 2); values.put("name", "EQ Mid 1"); values.put("control", 117); values.put("defval", 64);  db.insertOrThrow("Bars", null, values)
-            values.put("number", 3); values.put("name", "EQ Lo 1");  values.put("control", 118); values.put("defval", 64);  db.insertOrThrow("Bars", null, values)
-            // Deck 2
-            values.put("number", 4); values.put("name", "EQ Hi 2");  values.put("control", 116); values.put("defval", 64);  db.insertOrThrow("Bars", null, values)
-            values.put("number", 5); values.put("name", "EQ Mid 2"); values.put("control", 117); values.put("defval", 64);  db.insertOrThrow("Bars", null, values)
-            values.put("number", 6); values.put("name", "EQ Lo 2");  values.put("control", 118); values.put("defval", 64);  db.insertOrThrow("Bars", null, values)
-            // Mixer
-            values.put("number", 7); values.put("name", "Vol Deck 1"); values.put("control", 7);   values.put("defval", 80);  db.insertOrThrow("Bars", null, values)
-            values.put("number", 8); values.put("name", "Vol Deck 2"); values.put("control", 7);   values.put("defval", 80);  db.insertOrThrow("Bars", null, values)
+            val barNames = listOf("EQ Hi", "EQ Mid", "EQ Lo", "Vol Deck")
+
+            var number = 1
+            for (deck in 1..2) {
+                for (barName in barNames) {
+                    values.put("number", number)
+                    values.put("name", "$barName $deck")
+                    values.put("control", number + 64)
+                    values.put("defval", 64)
+                    db.insertOrThrow("Bars", null, values)
+                    number++
+                }
+            }
         }
         catch (e: Exception){
             val msg = mContext.getString(R.string.sinserterror).replace(
@@ -159,7 +161,7 @@ class MidandpadDB//else throw exception
     private fun insertButtons (db: SQLiteDatabase, presetid: Long) {
         val values = ContentValues ()
         try {
-            values.put ("presetId", presetid)
+            values.put("presetId", presetid)
             values.put("type", MidiHelper.EventTypes.EVENT_NOTE.ordinal)
             values.put("noteoff", EventButton.NOTEOFFTYPES.SENDOFF.ordinal)
             values.put("controloff", EventButton.CONTROLOFFTYPES.FIXED.ordinal)
@@ -167,44 +169,54 @@ class MidandpadDB//else throw exception
             values.put("valueoff", 0)
             values.put("channel", DEFAULT_CHANNEL)
             values.put("chordoff", EventButton.CHORDOFFTYPES.FULLOFF.ordinal)
+            values.put("chordnotes", "")
             values.put("rollnotetime", MidiHelper.NOTE_TIME.SIXTEENTH.ordinal)
             values.put("triplet", 0)
             values.put("notetoggle", 0)
 
-            // Deck 1
-            values.put("number", 1);  values.put("name", "Loop In 1");     values.put("note", 0);  values.put("chordnotes", "63;67;70"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 2);  values.put("name", "Loop Out 1");    values.put("note", 1);  values.put("chordnotes", "64;68;71"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 3);  values.put("name", "Loop Auto 1");   values.put("note", 2);  values.put("chordnotes", "65;69;72"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 4);  values.put("name", "Jump <<16 (1)"); values.put("note", 3);  values.put("chordnotes", "66;70;73"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 5);  values.put("name", "Jump <<4 (1)");  values.put("note", 4);  values.put("chordnotes", "67;71;74"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 6);  values.put("name", "Jump >>4 (1)");  values.put("note", 5);  values.put("chordnotes", "68;72;75"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 7);  values.put("name", "Jump >>16 (1)"); values.put("note", 6);  values.put("chordnotes", "69;73;76"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 8);  values.put("name", "Hotcue 1");      values.put("note", 7);  values.put("chordnotes", "70;74;77"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 9);  values.put("name", "Hotcue 2");      values.put("note", 8);  values.put("chordnotes", "71;75;78"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 10); values.put("name", "Hotcue 3");      values.put("note", 9);  values.put("chordnotes", "72;76;79"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 11); values.put("name", "Hotcue 4");      values.put("note", 10); values.put("chordnotes", "73;77;80"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 12); values.put("name", "Play/Pause 1"); values.put("note", 11); values.put("chordnotes", "74;78;81"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 13); values.put("name", "Cue 1");         values.put("note", 12); values.put("chordnotes", "75;79;82"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 14); values.put("name", "Sync 1");        values.put("note", 13); values.put("chordnotes", "76;80;83"); db.insertOrThrow("Buttons", null, values)
-            // Deck 2
-            values.put("number", 15); values.put("name", "Loop In 2");     values.put("note", 14); values.put("chordnotes", "63;67;70"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 16); values.put("name", "Loop Out 2");    values.put("note", 15); values.put("chordnotes", "64;68;71"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 17); values.put("name", "Loop Auto 2");   values.put("note", 16); values.put("chordnotes", "65;69;72"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 18); values.put("name", "Jump <<16 (2)"); values.put("note", 17); values.put("chordnotes", "66;70;73"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 19); values.put("name", "Jump <<4 (2)");  values.put("note", 18); values.put("chordnotes", "67;71;74"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 20); values.put("name", "Jump >>4 (2)");  values.put("note", 19); values.put("chordnotes", "68;72;75"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 21); values.put("name", "Jump >>16 (2)"); values.put("note", 20); values.put("chordnotes", "69;73;76"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 22); values.put("name", "Hotcue 1 (2)"); values.put("note", 21); values.put("chordnotes", "70;74;77"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 23); values.put("name", "Hotcue 2 (2)"); values.put("note", 22); values.put("chordnotes", "71;75;78"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 24); values.put("name", "Hotcue 3 (2)"); values.put("note", 23); values.put("chordnotes", "72;76;79"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 25); values.put("name", "Hotcue 4 (2)"); values.put("note", 24); values.put("chordnotes", "73;77;80"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 26); values.put("name", "Play/Pause 2"); values.put("note", 25); values.put("chordnotes", "74;78;81"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 27); values.put("name", "Cue 2");         values.put("note", 26); values.put("chordnotes", "75;79;82"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 28); values.put("name", "Sync 2");        values.put("note", 27); values.put("chordnotes", "76;80;83"); db.insertOrThrow("Buttons", null, values)
-            // Mixer
-            values.put("number", 29); values.put("name", "Cue Ch1");       values.put("note", 28); values.put("chordnotes", "60;64;67"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 30); values.put("name", "Cue Master");    values.put("note", 29); values.put("chordnotes", "61;65;68"); db.insertOrThrow("Buttons", null, values)
-            values.put("number", 31); values.put("name", "Cue Ch2");       values.put("note", 30); values.put("chordnotes", "62;66;69"); db.insertOrThrow("Buttons", null, values)
+            // Button templates for each deck
+            val buttonTemps = listOf(
+                "Loop In",
+                "Loop Out",
+                "Loop Auto",
+                "Jump <<16",
+                "Jump <<4",
+                "Jump >>4",
+                "Jump >>16",
+                "Hotcue 1",
+                "Hotcue 2",
+                "Hotcue 3",
+                "Hotcue 4",
+                "Play/Pause",
+                "Cue",
+                "Sync"
+            )
+
+            var number = 1
+            // Insert deck buttons (same template for both decks, different note offsets)
+            for (deck in 0..1) {
+                for ((idx, name) in buttonTemps.withIndex()) {
+                    values.put("number", number)
+                    values.put("name", name)
+                    values.put("note", number - 1)
+                    db.insertOrThrow("Buttons", null, values)
+                    number++
+                }
+            }
+
+            // Insert mixer buttons
+            val mixerButtons = listOf(
+                "Cue Ch1",
+                "Cue Master",
+                "Cue Ch2"
+            )
+            for (name in mixerButtons) {
+                values.put("number", number)
+                values.put("name", name)
+                values.put("note", number - 1)
+                db.insertOrThrow("Buttons", null, values)
+                number++
+            }
         }
         catch (e: Exception){
             val msg = mContext.getString(R.string.sinserterror).replace(
@@ -214,7 +226,6 @@ class MidandpadDB//else throw exception
             throw e
         }
     }
-
     public fun getCurrPreset (): Long {
         val db = readableDatabase
         //val db = writableDatabase
