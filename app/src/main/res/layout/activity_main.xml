@@ -253,17 +253,20 @@
             android:paddingTop="8dp">
 
             <Button
+                android:id="@+id/cue_deck1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cue Deck 1" />
 
             <Button
+                android:id="@+id/cue_master"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Cue Master" />
 
             <Button
+                android:id="@+id/cue_deck2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -326,6 +329,7 @@
                             android:id="@+id/label1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Volume"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -357,9 +361,11 @@
                             android:id="@+id/label2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Low"
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/deck1_eq_low_reset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Low" />
@@ -393,9 +399,11 @@
                             android:id="@+id/label3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Mid"
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/deck1_eq_mid_reset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Mid" />
@@ -429,9 +437,11 @@
                             android:id="@+id/label4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="High"
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/deck1_eq_high_reset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset High" />
@@ -468,6 +478,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
+                            android:id="@+id/deck2_volume"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -498,6 +509,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
+                            android:id="@+id/deck2_eq_low"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -520,6 +532,7 @@
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/deck2_eq_low_reset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Low" />
@@ -533,6 +546,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
+                            android:id="@+id/deck2_eq_mid"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -555,6 +569,7 @@
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/deck2_eq_mid_reset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset Mid" />
@@ -568,6 +583,7 @@
                         android:orientation="vertical">
 
                         <org.gnu.itsmoroto.midandpad.CCBar
+                            android:id="@+id/deck2_eq_high"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
@@ -590,6 +606,7 @@
                             android:textColor="@color/white" />
 
                         <Button
+                            android:id="@+id/deck2_eq_high_reset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reset High" />
@@ -675,6 +692,7 @@
                 android:textSize="@dimen/midibuttonsize" />
 
             <Button
+                android:id="@+id/deck2_loop_minus"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -684,6 +702,7 @@
                 android:text="Loop -" />
 
             <Button
+                android:id="@+id/deck2_sync"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -693,6 +712,7 @@
                 android:text="Sync" />
 
             <Button
+                android:id="@+id/deck2_jump_left"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
@@ -702,6 +722,7 @@
                 android:text="Jump <" />
 
             <Button
+                android:id="@+id/deck2_jump_right"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_columnWeight="1"
