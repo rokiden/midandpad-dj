@@ -9,7 +9,7 @@ android {
     compileSdk = 35
     buildFeatures.buildConfig = true //Needed for buildConfigField to work.
     defaultConfig {
-        applicationId = "org.gnu.itsmoroto.midandpad"
+        applicationId = "org.gnu.rokiden.midandpad_dj"
         minSdk = 24
         targetSdk = 35
         versionCode = 5

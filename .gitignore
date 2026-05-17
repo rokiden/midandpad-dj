@@ -133,3 +133,5 @@ app/debug/
 
 #Don't commit
 functional_ideas*
+
+/.idea
