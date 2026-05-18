@@ -1,16 +1,18 @@
 package org.gnu.itsmoroto.midandpad
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import com.google.android.material.button.MaterialButton
 import java.util.Timer
 import java.util.TimerTask
 
 
-class EventButton : androidx.appcompat.widget.AppCompatButton {
+class EventButton : MaterialButton {
 
     private class FlamPrimary(note: Int, vel:Int, channel: Int): TimerTask (){
         private val mNote = note
@@ -353,31 +355,45 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     }
 
 
-    constructor(context: Context): super (context) {
-        initialize ()
+    constructor(context: Context): super(context) {
+        initColors(context, null)
+        initialize()
     }
-    constructor(context: Context, attributeSet: AttributeSet): super (context, attributeSet) {
-        initialize ()
+    constructor(context: Context, attributeSet: AttributeSet): super(context, attributeSet) {
+        initColors(context, attributeSet)
+        initialize()
     }
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int):
-            super (context, attributeSet, defStyleAttr)
+            super(context, attributeSet, defStyleAttr)
     {
-        initialize ()
+        initColors(context, attributeSet)
+        initialize()
     }
 
-    fun initialize (){
-        // Try to get OFF color from existing background, otherwise use default
-        val bg = background
-        if (bg != null && bg is android.graphics.drawable.ColorDrawable) {
-            mOFFColor = bg.color
+    private fun initColors(context: Context, attrs: AttributeSet?) {
+        val defaultOff = ContextCompat.getColor(context, R.color.colorNB)
+        if (attrs != null) {
+            val ta = context.obtainStyledAttributes(attrs, R.styleable.EventButton)
+            mOFFColor = ta.getColor(R.styleable.EventButton_offColor, defaultOff)
+            val defaultOn = ColorUtils.blendARGB(mOFFColor, Color.WHITE, 0.5f)
+            mONColor = ta.getColor(R.styleable.EventButton_onColor, defaultOn)
+            ta.recycle()
         } else {
-            mOFFColor = ContextCompat.getColor(context, R.color.colorNB)
+            mOFFColor = defaultOff
+            mONColor = ColorUtils.blendARGB(mOFFColor, Color.WHITE, 0.5f)
         }
-        mONColor = ContextCompat.getColor(context, R.color.colorNBON)
-        setBackgroundColor(mOFFColor)
+    }
+
+    private fun initialize() {
+        backgroundTintList = ColorStateList.valueOf(mOFFColor)
+        rippleColor = ColorStateList.valueOf(ColorUtils.blendARGB(Color.WHITE, mOFFColor, 0.3f))
         updateTextColorForBackground(mOFFColor)
-        setOnClickListener { _->
-            onclick ()
+        isAllCaps = false
+        insetTop = 0
+        insetBottom = 0
+        cornerRadius = resources.getDimensionPixelSize(R.dimen.eventbutton_corner_radius)
+        setOnClickListener { _ ->
+            onclick()
         }
     }
 
@@ -436,9 +452,10 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     }
 
 
-    private fun setClicked (){
+    private fun setClicked() {
         val color = if (mClicked) mONColor else mOFFColor
-        setBackgroundColor(color)
+        backgroundTintList = ColorStateList.valueOf(color)
+        rippleColor = ColorStateList.valueOf(ColorUtils.blendARGB(Color.WHITE, color, 0.3f))
         updateTextColorForBackground(color)
     }
 
@@ -563,6 +580,24 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     fun unclick (){
         mClicked = false
         setClicked()
+    }
+
+    fun setOffColor(color: Int) {
+        mOFFColor = color
+        if (!mClicked) {
+            backgroundTintList = ColorStateList.valueOf(mOFFColor)
+            rippleColor = ColorStateList.valueOf(ColorUtils.blendARGB(Color.WHITE, mOFFColor, 0.3f))
+            updateTextColorForBackground(mOFFColor)
+        }
+    }
+
+    fun setOnColor(color: Int) {
+        mONColor = color
+        if (mClicked) {
+            backgroundTintList = ColorStateList.valueOf(mONColor)
+            rippleColor = ColorStateList.valueOf(ColorUtils.blendARGB(Color.WHITE, mONColor, 0.3f))
+            updateTextColorForBackground(mONColor)
+        }
     }
 
     @OptIn(ExperimentalUnsignedTypes::class)
