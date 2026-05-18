@@ -14,4 +14,13 @@
     <color name="colorCHBLight">#CCB0B0D0</color>
     <color name="colorCHBON">#FF9090b0</color>
     <color name="colorCHBONLight">#FFC0C0E0</color>
+    <color name="colorPlay">#4BD045</color>
+    <color name="colorCue">#E9BF66</color>
+    <color name="colorSync">#1272E8</color>
+    <color name="colorHotcue1">#DE2824</color>
+    <color name="colorHotcue2">#4DAFF9</color>
+    <color name="colorHotcue3">#30D91D</color>
+    <color name="colorHotcue4">#A378F9</color>
+    <color name="colorLoop">#FBAE00</color>
+    <color name="colorJump">#D3DF00</color>
 </resources>

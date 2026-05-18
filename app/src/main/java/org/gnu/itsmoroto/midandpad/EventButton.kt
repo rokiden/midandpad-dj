@@ -1,10 +1,11 @@
 package org.gnu.itsmoroto.midandpad
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import java.util.Timer
 import java.util.TimerTask
 
@@ -103,11 +104,8 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
 
     private var mClockTicks = 0
     private var mClicked: Boolean = false
-    private var mOFFBG: Drawable = ResourcesCompat.getDrawable(resources,
-        R.drawable.ccbutton_off_background, null)!!
-    private var mONBG: Drawable = ResourcesCompat.getDrawable(resources,
-        R.drawable.ccbutton_on_background, null)!!
-    //Falta lo de los colores y probarlo todo.
+    private var mOFFColor: Int = 0
+    private var mONColor: Int = 0
     val mChordNotes = ArrayList<Int> ()
     var mRollNote: MidiHelper.NOTE_TIME = MidiHelper.NOTE_TIME.QUARTER
     private var mRollNoteTime: Int = 0
@@ -368,8 +366,16 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     }
 
     fun initialize (){
-        background = ResourcesCompat.getDrawable(resources,
-            R.drawable.notebutton_background, null)
+        // Try to get OFF color from existing background, otherwise use default
+        val bg = background
+        if (bg != null && bg is android.graphics.drawable.ColorDrawable) {
+            mOFFColor = bg.color
+        } else {
+            mOFFColor = ContextCompat.getColor(context, R.color.colorNB)
+        }
+        mONColor = ContextCompat.getColor(context, R.color.colorNBON)
+        setBackgroundColor(mOFFColor)
+        updateTextColorForBackground(mOFFColor)
         setOnClickListener { _->
             onclick ()
         }
@@ -431,8 +437,14 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
 
 
     private fun setClicked (){
-            background = if (mClicked) mONBG
-            else mOFFBG
+        val color = if (mClicked) mONColor else mOFFColor
+        setBackgroundColor(color)
+        updateTextColorForBackground(color)
+    }
+
+    private fun updateTextColorForBackground(backgroundColor: Int) {
+        val luminance = ColorUtils.calculateLuminance(backgroundColor)
+        setTextColor(if (luminance > 0.5) Color.BLACK else Color.WHITE)
     }
     public fun setName (name: String){
         mName = name
@@ -533,25 +545,7 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     }
 
     fun setmType (type: MidiHelper.EventTypes) {
-        val getd: (Int)-> Drawable? = {resid->
-            ResourcesCompat.getDrawable(resources, resid, null)
-        }
         mType = type
-        when (type){
-            MidiHelper.EventTypes.EVENT_NOTE -> {
-                background = getd (R.drawable.notebutton_background)
-            }
-            MidiHelper.EventTypes.EVENT_CONTROL -> {
-                background = getd (R.drawable.ccbutton_off_background)
-            }
-            MidiHelper.EventTypes.EVENT_PROGRAM -> {
-                background = getd (R.drawable.programbutton_background)
-            }
-            MidiHelper.EventTypes.EVENT_CHORD -> {
-                background = getd (R.drawable.chordbutton_background)
-            }
-        }
-        setTypeBackground()
     }
 
     private fun startRoll (){
@@ -584,48 +578,5 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
         msg.add(note.toUByte())
         msg.add(0U)
         MainActivity.mMidi.send(command, msg.toUByteArray().toByteArray())
-    }
-
-    fun setTypeBackground () {
-        if (mType == MidiHelper.EventTypes.EVENT_CONTROL) {
-            mOFFBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.ccbutton_off_background, null
-            )!!
-            mONBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.ccbutton_on_background, null
-            )!!
-        }
-        else if (mType == MidiHelper.EventTypes.EVENT_NOTE){
-            mOFFBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.notebutton_background, null
-            )!!
-            mONBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.notebuttonon_background, null
-            )!!
-        }
-        else if (mType == MidiHelper.EventTypes.EVENT_CHORD){
-            mOFFBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.chordbutton_background, null
-            )!!
-            mONBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.chordbuttonon_background, null
-            )!!
-        }
-        else if (mType == MidiHelper.EventTypes.EVENT_PROGRAM){
-            mOFFBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.programbutton_background, null
-            )!!
-            mONBG = ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.programbutton_background, null
-            )!!
-        }
     }
 }
