@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="eventButtonStyle" format="reference" />
+
+    <declare-styleable name="EventButton">
+        <attr name="eventButtonOffColor" format="color" />
+        <attr name="eventButtonOnColor" format="color" />
+        <attr name="eventButtonCornerRadius" format="dimension" />
+        <attr name="eventButtonStrokeWidth" format="dimension" />
+        <attr name="eventButtonStrokeColor" format="color" />
+        <attr name="eventButtonRippleColor" format="color" />
+        <attr name="eventButtonOnTextColor" format="color" />
+        <attr name="eventButtonOffTextColor" format="color" />
+    </declare-styleable>
+</resources>

@@ -4,4 +4,9 @@
         <item name="android:button">@drawable/statuscheckdrawable</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="Widget.Midandpad.EventButton" parent="Widget.AppCompat.Button">
+        <item name="eventButtonCornerRadius">14dp</item>
+        <item name="eventButtonStrokeWidth">1dp</item>
+    </style>
 </resources>

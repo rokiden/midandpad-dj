@@ -1,11 +1,18 @@
 package org.gnu.itsmoroto.midandpad
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
-import androidx.core.content.ContextCompat
+import android.view.ViewOutlineProvider
+import androidx.core.content.res.use
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
+import android.graphics.drawable.RippleDrawable
 import java.util.Timer
 import java.util.TimerTask
 
@@ -353,32 +360,132 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     }
 
 
-    constructor(context: Context): super (context) {
-        initialize ()
-    }
-    constructor(context: Context, attributeSet: AttributeSet): super (context, attributeSet) {
-        initialize ()
-    }
-    constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int):
-            super (context, attributeSet, defStyleAttr)
-    {
-        initialize ()
+    private var offTextColorOverride: Int? = null
+    private var onTextColorOverride: Int? = null
+
+    private var cornerRadiusPx: Float = 0f
+    private var strokeWidthPx: Float = 0f
+    private var strokeColor: Int = Color.TRANSPARENT
+    private var rippleColor: Int = Color.TRANSPARENT
+    private var baseElevationPx: Float = 0f
+    private var toggledElevationPx: Float = 0f
+
+    private var shapeDrawable: MaterialShapeDrawable? = null
+
+    @JvmOverloads
+    constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = R.attr.eventButtonStyle,
+    ) : super(context, attrs, defStyleAttr) {
+        initialize(attrs, defStyleAttr)
     }
 
-    fun initialize (){
-        // Try to get OFF color from existing background, otherwise use default
-        val bg = background
-        if (bg != null && bg is android.graphics.drawable.ColorDrawable) {
-            mOFFColor = bg.color
-        } else {
-            mOFFColor = ContextCompat.getColor(context, R.color.colorNB)
+    private fun initialize(attrs: AttributeSet?, defStyleAttr: Int) {
+        val initialAndroidBackgroundColor = context.obtainStyledAttributes(
+            attrs,
+            intArrayOf(android.R.attr.background),
+            defStyleAttr,
+            0,
+        ).use { ta ->
+            ta.getColor(0, Color.TRANSPARENT)
         }
-        mONColor = ContextCompat.getColor(context, R.color.colorNBON)
-        setBackgroundColor(mOFFColor)
-        updateTextColorForBackground(mOFFColor)
-        setOnClickListener { _->
-            onclick ()
+
+        context.obtainStyledAttributes(attrs, R.styleable.EventButton, defStyleAttr, 0).use { ta ->
+            val defaultOffColor = if (initialAndroidBackgroundColor != Color.TRANSPARENT) {
+                initialAndroidBackgroundColor
+            } else {
+                val surface = MaterialColors.getColor(
+                    this,
+                    com.google.android.material.R.attr.colorSurface,
+                    Color.parseColor("#FFBDBDBD"),
+                )
+                MaterialColors.getColor(
+                    this,
+                    com.google.android.material.R.attr.colorSurfaceVariant,
+                    surface,
+                )
+            }
+
+            mOFFColor = ta.getColor(R.styleable.EventButton_eventButtonOffColor, defaultOffColor)
+            mONColor = ta.getColor(
+                R.styleable.EventButton_eventButtonOnColor,
+                deriveOnColor(mOFFColor),
+            )
+
+            cornerRadiusPx = ta.getDimension(
+                R.styleable.EventButton_eventButtonCornerRadius,
+                dpToPx(14f),
+            )
+            strokeWidthPx = ta.getDimension(
+                R.styleable.EventButton_eventButtonStrokeWidth,
+                dpToPx(1f),
+            )
+
+            val contrast = getContrastingColor(mOFFColor)
+            strokeColor = ta.getColor(
+                R.styleable.EventButton_eventButtonStrokeColor,
+                ColorUtils.setAlphaComponent(contrast, 70),
+            )
+            rippleColor = ta.getColor(
+                R.styleable.EventButton_eventButtonRippleColor,
+                ColorUtils.setAlphaComponent(contrast, 50),
+            )
+
+            offTextColorOverride = ta.getColor(
+                R.styleable.EventButton_eventButtonOffTextColor,
+                Color.TRANSPARENT,
+            ).takeUnless { it == Color.TRANSPARENT }
+            onTextColorOverride = ta.getColor(
+                R.styleable.EventButton_eventButtonOnTextColor,
+                Color.TRANSPARENT,
+            ).takeUnless { it == Color.TRANSPARENT }
+
+            baseElevationPx = dpToPx(2f)
+            toggledElevationPx = dpToPx(6f)
         }
+
+        setupMaterialLikeBackground()
+        applyVisualState()
+
+        outlineProvider = ViewOutlineProvider.BACKGROUND
+        clipToOutline = true
+        ViewCompat.setElevation(this, baseElevationPx)
+
+        setOnClickListener { _ ->
+            onclick()
+        }
+    }
+
+    private fun setupMaterialLikeBackground() {
+        val shapeAppearanceModel = ShapeAppearanceModel.builder()
+            .setAllCornerSizes(cornerRadiusPx)
+            .build()
+
+        val contentDrawable = MaterialShapeDrawable(shapeAppearanceModel).apply {
+            initializeElevationOverlay(context)
+            setStroke(strokeWidthPx, strokeColor)
+        }
+        val maskDrawable = MaterialShapeDrawable(shapeAppearanceModel).apply {
+            setTint(Color.WHITE)
+        }
+
+        shapeDrawable = contentDrawable
+        background = RippleDrawable(
+            ColorStateList.valueOf(rippleColor),
+            contentDrawable,
+            maskDrawable,
+        )
+    }
+
+    private fun dpToPx(dp: Float): Float = dp * resources.displayMetrics.density
+
+    private fun getContrastingColor(backgroundColor: Int): Int =
+        if (ColorUtils.calculateLuminance(backgroundColor) > 0.5) Color.BLACK else Color.WHITE
+
+    private fun deriveOnColor(offColor: Int): Int {
+        val blendWith = if (ColorUtils.calculateLuminance(offColor) > 0.5) Color.BLACK else Color.WHITE
+        return ColorUtils.blendARGB(offColor, blendWith, 0.22f)
     }
 
     private fun onclick (){
@@ -437,14 +544,23 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
 
 
     private fun setClicked (){
-        val color = if (mClicked) mONColor else mOFFColor
-        setBackgroundColor(color)
-        updateTextColorForBackground(color)
+        applyVisualState()
     }
 
     private fun updateTextColorForBackground(backgroundColor: Int) {
-        val luminance = ColorUtils.calculateLuminance(backgroundColor)
-        setTextColor(if (luminance > 0.5) Color.BLACK else Color.WHITE)
+        val overrideColor = if (backgroundColor == mONColor) onTextColorOverride else offTextColorOverride
+        if (overrideColor != null) {
+            setTextColor(overrideColor)
+            return
+        }
+        setTextColor(getContrastingColor(backgroundColor))
+    }
+
+    private fun applyVisualState() {
+        val currentColor = if (mClicked) mONColor else mOFFColor
+        shapeDrawable?.fillColor = ColorStateList.valueOf(currentColor)
+        updateTextColorForBackground(currentColor)
+        ViewCompat.setElevation(this, if (mClicked) toggledElevationPx else baseElevationPx)
     }
     public fun setName (name: String){
         mName = name
