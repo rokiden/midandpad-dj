@@ -76,7 +76,9 @@
             app:layout_constraintEnd_toStartOf="@+id/slider_deck_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tickVisible="false" />
+            app:tickVisible="false"
+            app:thumbHeight="@dimen/ccbar_thumb_height"
+            app:trackHeight="@dimen/ccbar_track_height" />
 
         <org.gnu.itsmoroto.midandpad.CCBar
             android:id="@+id/slider_deck_2"
@@ -92,7 +94,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/slider_deck_1"
             app:layout_constraintTop_toTopOf="parent"
-            app:tickVisible="false" />
+            app:tickVisible="false"
+            app:thumbHeight="@dimen/ccbar_thumb_height"
+            app:trackHeight="@dimen/ccbar_track_height" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,4 +10,6 @@
     <dimen name="statussize">20sp</dimen>
     <dimen name="statusclocksize">18sp</dimen>
     <dimen name="midilogoheight">18dp</dimen>
+    <dimen name="ccbar_thumb_height">56dp</dimen>
+    <dimen name="ccbar_track_height">44dp</dimen>
 </resources>
