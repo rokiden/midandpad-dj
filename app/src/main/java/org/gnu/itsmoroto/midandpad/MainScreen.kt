@@ -157,15 +157,31 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private fun setupEqResetButton(deck: ConstraintLayout, buttonId: Int, sliderId: Int) {
         val resetButton = deck.findViewById<Button>(buttonId)
         val slider = deck.findViewById<CCBar>(sliderId)
-        resetButton.setOnClickListener {
-            val targetValue = if (slider.mDefaultValue >= slider.valueFrom &&
-                slider.mDefaultValue <= slider.valueTo) {
+
+        fun getTargetValue(): Float {
+            return if (slider.mDefaultValue >= slider.valueFrom && slider.mDefaultValue <= slider.valueTo) {
                 slider.mDefaultValue
             } else {
                 mEqResetDefaultValue
             }
-            slider.value = targetValue
         }
+
+        fun updateResetButtonState(value: Float) {
+            val isDefaultValue = value == getTargetValue()
+            resetButton.isEnabled = !isDefaultValue
+            // resetButton.alpha = if (isDefaultValue) 0.5f else 1f
+        }
+
+        slider.addOnChangeListener { _, value, _ ->
+            updateResetButtonState(value)
+        }
+
+        resetButton.setOnClickListener {
+            slider.value = getTargetValue()
+            updateResetButtonState(slider.value)
+        }
+
+        updateResetButtonState(slider.value)
     }
 
     fun configControls (){

@@ -94,8 +94,8 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
                 val command: UByte = MidiHelper.STATUS_PITCH_BEND or channel
                 val msg = ubyteArrayOf(0U, PITCHCENTERU)
                 MainActivity.mMidi.send(command, msg.toByteArray())
-                // Remove and re-add listener to avoid triggering onValueChange when resetting
-                clearOnChangeListeners()
+                // Temporarily remove only this listener to avoid recursive callbacks.
+                removeOnChangeListener(this)
                 value = PITCHCENTER.toFloat()
                 addOnChangeListener(this)
             }
@@ -107,8 +107,8 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
                 val msg = ubyteArrayOf(mControl.toUByte(), mZeroPos.toUByte()
                 )
                 MainActivity.mMidi.send(command, msg.toByteArray())
-                // Remove and re-add listener to avoid triggering onValueChange when resetting
-                clearOnChangeListeners()
+                // Temporarily remove only this listener to avoid recursive callbacks.
+                removeOnChangeListener(this)
                 value = mZeroPos.toFloat()
                 addOnChangeListener(this)
             }
