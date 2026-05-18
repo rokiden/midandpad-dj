@@ -398,12 +398,12 @@ class EventButton : MaterialButton {
             if (bg != null && bg is android.graphics.drawable.ColorDrawable) {
                 mOFFColor = bg.color
             } else {
-                mOFFColor = ContextCompat.getColor(context, android.R.color.darker_gray)
+                mOFFColor = ContextCompat.getColor(context, R.color.colorNB)
             }
         }
 
         if (mONColor == 0) {
-            mONColor = ContextCompat.getColor(context, android.R.color.holo_green_light)
+            mONColor = ContextCompat.getColor(context, R.color.colorNBON)
         }
 
         // Apply modern Material Design styling
