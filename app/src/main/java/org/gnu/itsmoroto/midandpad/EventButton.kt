@@ -6,11 +6,13 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.shape.ShapeAppearanceModel
 import java.util.Timer
 import java.util.TimerTask
 
 
-class EventButton : androidx.appcompat.widget.AppCompatButton {
+class EventButton : MaterialButton {
 
     private class FlamPrimary(note: Int, vel:Int, channel: Int): TimerTask (){
         private val mNote = note
@@ -118,6 +120,10 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
     private val OFF = 0
     private var mFlamTimer: Timer? = null
     private var mRollTimer: Timer? = null
+
+    // Configurable styling properties
+    private var mCornerRadius: Float = 12f
+    private var mButtonElevation: Float = 4f
 
 
     @OptIn(ExperimentalUnsignedTypes::class)
@@ -354,31 +360,123 @@ class EventButton : androidx.appcompat.widget.AppCompatButton {
 
 
     constructor(context: Context): super (context) {
-        initialize ()
+        initialize(null)
     }
     constructor(context: Context, attributeSet: AttributeSet): super (context, attributeSet) {
-        initialize ()
+        initialize(attributeSet)
     }
     constructor(context: Context, attributeSet: AttributeSet, defStyleAttr: Int):
             super (context, attributeSet, defStyleAttr)
     {
-        initialize ()
+        initialize(attributeSet)
     }
 
-    fun initialize (){
-        // Try to get OFF color from existing background, otherwise use default
-        val bg = background
-        if (bg != null && bg is android.graphics.drawable.ColorDrawable) {
-            mOFFColor = bg.color
-        } else {
-            mOFFColor = ContextCompat.getColor(context, R.color.colorNB)
+    private fun initialize (attributeSet: AttributeSet?){
+        // Parse custom attributes
+        if (attributeSet != null) {
+            val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.EventButton)
+
+            // Get custom colors if provided
+            if (typedArray.hasValue(R.styleable.EventButton_offColor)) {
+                mOFFColor = typedArray.getColor(R.styleable.EventButton_offColor, 0)
+            }
+            if (typedArray.hasValue(R.styleable.EventButton_onColor)) {
+                mONColor = typedArray.getColor(R.styleable.EventButton_onColor, 0)
+            }
+
+            // Get corner radius and elevation
+            mCornerRadius = typedArray.getDimension(R.styleable.EventButton_cornerRadius, 12f)
+            mButtonElevation = typedArray.getDimension(R.styleable.EventButton_buttonElevation, 4f)
+
+            typedArray.recycle()
         }
-        mONColor = ContextCompat.getColor(context, R.color.colorNBON)
+
+        // Set default colors if not provided via attributes
+        if (mOFFColor == 0) {
+            // Try to get OFF color from existing background, otherwise use default
+            val bg = background
+            if (bg != null && bg is android.graphics.drawable.ColorDrawable) {
+                mOFFColor = bg.color
+            } else {
+                mOFFColor = ContextCompat.getColor(context, android.R.color.darker_gray)
+            }
+        }
+
+        if (mONColor == 0) {
+            mONColor = ContextCompat.getColor(context, android.R.color.holo_green_light)
+        }
+
+        // Apply modern Material Design styling
+        applyModernStyling()
+
+        // Set initial background color
         setBackgroundColor(mOFFColor)
         updateTextColorForBackground(mOFFColor)
+
         setOnClickListener { _->
             onclick ()
         }
+    }
+
+    private fun applyModernStyling() {
+        // Set corner radius using ShapeAppearanceModel
+        val shapeModel = ShapeAppearanceModel.builder()
+            .setAllCornerSizes(mCornerRadius)
+            .build()
+        shapeAppearanceModel = shapeModel
+
+        // Set elevation for material look
+        elevation = mButtonElevation
+
+        // Remove inset to use full bounds
+        insetTop = 0
+        insetBottom = 0
+
+        // Disable state list animator for custom color control
+        stateListAnimator = null
+    }
+
+    /**
+     * Sets the OFF state color for this button.
+     * Colors are independent and can be configured per button instance.
+     */
+    fun setOffColor(color: Int) {
+        mOFFColor = color
+        if (!mClicked) {
+            setBackgroundColor(mOFFColor)
+            updateTextColorForBackground(mOFFColor)
+        }
+    }
+
+    /**
+     * Sets the ON state color for this button.
+     * Colors are independent and can be configured per button instance.
+     */
+    fun setOnColor(color: Int) {
+        mONColor = color
+        if (mClicked) {
+            setBackgroundColor(mONColor)
+            updateTextColorForBackground(mONColor)
+        }
+    }
+
+    /**
+     * Sets the corner radius for this button.
+     */
+    fun setCornerRadius(radius: Float) {
+        mCornerRadius = radius
+        val shapeModel = ShapeAppearanceModel.builder()
+            .setAllCornerSizes(mCornerRadius)
+            .build()
+        shapeAppearanceModel = shapeModel
+    }
+
+    /**
+     * Sets the elevation for this button.
+     */
+    fun setButtonElevation(elevation: Float) {
+        mButtonElevation = elevation
+        this.elevation = mButtonElevation
     }
 
     private fun onclick (){
