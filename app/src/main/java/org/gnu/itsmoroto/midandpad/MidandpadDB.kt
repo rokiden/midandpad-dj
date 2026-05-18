@@ -183,10 +183,10 @@ class MidandpadDB//else throw exception
                 "<<4",
                 ">>4",
                 ">>16",
-                "1",
-                "2",
-                "3",
-                "4",
+                "A",
+                "B",
+                "C",
+                "D",
                 "Play/Pause",
                 "Cue",
                 "Sync"
@@ -210,6 +210,7 @@ class MidandpadDB//else throw exception
                 "Cue Master",
                 "Cue Ch2"
             )
+            values.put("notetoggle", 1)
             for (name in mixerButtons) {
                 values.put("number", number)
                 values.put("name", name)
