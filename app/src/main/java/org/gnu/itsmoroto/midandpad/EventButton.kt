@@ -121,6 +121,7 @@ class EventButton : MaterialButton {
     private val OFF = 0
     private var mFlamTimer: Timer? = null
     private var mRollTimer: Timer? = null
+    private var mSkipToggleMidiOnRelease: Boolean = false
 
 
     @OptIn(ExperimentalUnsignedTypes::class)
@@ -196,7 +197,6 @@ class EventButton : MaterialButton {
                                 return true
                             }
                             CONTROLOFFTYPES.TOGGLE ->{
-                                sendMidi(0, if (mClicked) ON else OFF)
                                 return true
                             }
                             CONTROLOFFTYPES.MOMENTARY -> {
@@ -303,6 +303,11 @@ class EventButton : MaterialButton {
 
                         when (mControlOFF){
                             CONTROLOFFTYPES.TOGGLE->{
+                                if (mSkipToggleMidiOnRelease) {
+                                    mSkipToggleMidiOnRelease = false
+                                    return true
+                                }
+                                sendMidi(0, if (mClicked) ON else OFF)
                                 setClicked()
                                 return true
                             }
@@ -395,6 +400,20 @@ class EventButton : MaterialButton {
         cornerRadius = resources.getDimensionPixelSize(R.dimen.eventbutton_corner_radius)
         setOnClickListener { _ ->
             onclick()
+        }
+        setOnLongClickListener {
+            if (MainActivity.mConfigParams.mMode == ConfigParams.EDIT_MODE) {
+                return@setOnLongClickListener false
+            }
+
+            if (mType == MidiHelper.EventTypes.EVENT_CONTROL
+                && mControlOFF == CONTROLOFFTYPES.TOGGLE) {
+                // ACTION_DOWN already flipped mClicked. Keep the new state but avoid MIDI on release.
+                mSkipToggleMidiOnRelease = true
+                setClicked()
+                return@setOnLongClickListener true
+            }
+            false
         }
     }
 
