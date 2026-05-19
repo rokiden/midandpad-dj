@@ -163,7 +163,7 @@ class MidandpadDB//else throw exception
         try {
             values.put("presetId", presetid)
             values.put("type", MidiHelper.EventTypes.EVENT_NOTE.ordinal)
-            values.put("noteoff", EventButton.NOTEOFFTYPES.SENDOFF.ordinal)
+            values.put("noteoff", EventButton.NOTEOFFTYPES.NOSENDOFF.ordinal)
             values.put("controloff", EventButton.CONTROLOFFTYPES.FIXED.ordinal)
             values.put("valueon", 127)
             values.put("valueoff", 0)
