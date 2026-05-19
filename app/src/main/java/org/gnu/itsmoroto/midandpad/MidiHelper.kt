@@ -303,6 +303,40 @@ class MidiHelper(context: Context): DeviceCallback(){
     }
 
 
+    private fun isAndroidUsbPeripheralCandidate(deviceInfo: MidiDeviceInfo): Boolean {
+        if (deviceInfo.inputPortCount < 1 || deviceInfo.outputPortCount < 1) {
+            return false
+        }
+        val normalizedProps = buildString {
+            append(deviceInfo.properties.getString(MidiDeviceInfo.PROPERTY_NAME) ?: "")
+            append(" ")
+            append(deviceInfo.properties.getString(MidiDeviceInfo.PROPERTY_MANUFACTURER) ?: "")
+            append(" ")
+            append(deviceInfo.properties.getString(MidiDeviceInfo.PROPERTY_PRODUCT) ?: "")
+        }.trim().lowercase()
+        return normalizedProps.contains("android") &&
+            (normalizedProps.contains("usb") ||
+                normalizedProps.contains("peripheral") ||
+                deviceInfo.type == MidiDeviceInfo.TYPE_USB)
+    }
+
+    fun connectAndroidUsbPeripheralInOut(): Boolean {
+        val candidate = mDevicesOut.firstOrNull { isAndroidUsbPeripheralCandidate(it) }
+            ?: mDevicesOut.firstOrNull {
+                it.inputPortCount > 0 &&
+                    it.outputPortCount > 0 &&
+                    it.type == MidiDeviceInfo.TYPE_USB
+            }
+            ?: return false
+        val outPort = candidate.ports.firstOrNull { it.type == MidiDeviceInfo.PortInfo.TYPE_INPUT }
+            ?.portNumber ?: return false
+        val inPort = candidate.ports.firstOrNull { it.type == MidiDeviceInfo.PortInfo.TYPE_OUTPUT }
+            ?.portNumber ?: return false
+        openDeviceOut(candidate, outPort)
+        openDeviceIn(candidate, inPort)
+        return true
+    }
+
     fun haveConnection (): Boolean{
         return (mDeviceOut != null && mOutPort != null)
     }

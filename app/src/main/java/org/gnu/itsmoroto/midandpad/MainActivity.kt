@@ -298,6 +298,10 @@ class MainActivity : AppCompatActivity(), Runnable {
         mMidiConfig.updateChannelPPQ()
     }
 
+    fun connectAndroidUsbPeripheralMidi(): Boolean {
+        return mMidi.connectAndroidUsbPeripheralInOut()
+    }
+
     override fun run() {
         initialize()
     }
