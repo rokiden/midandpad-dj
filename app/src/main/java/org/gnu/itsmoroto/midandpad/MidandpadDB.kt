@@ -210,6 +210,7 @@ class MidandpadDB//else throw exception
                 "Cue Master",
                 "Cue Ch2"
             )
+            values.put("type", MidiHelper.EventTypes.EVENT_CONTROL.ordinal)
             values.put("notetoggle", 1)
             values.put("valueoff", 127)
             for (name in mixerButtons) {
