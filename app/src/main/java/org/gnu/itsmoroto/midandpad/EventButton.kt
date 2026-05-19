@@ -404,6 +404,7 @@ class EventButton : MaterialButton {
             if (ctx is MainActivity) return ctx
             ctx = ctx.baseContext
         }
+        if (ctx is MainActivity) return ctx
         throw IllegalStateException("EventButton not attached to MainActivity")
     }
 
