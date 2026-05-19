@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +26,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mRunButton:ImageButton
     private val mExploreButton:ImageButton
     private val mCalibrationButton: ImageButton
+    private val mMidiLogoIcon: ImageView
 
     private val mHaveMIDIcheck: CheckBox
     private val mHaveClockCheck:CheckBox
@@ -76,6 +78,8 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mCalibrationButton.setOnClickListener {_: View->
             onCalibrationClick ()
         }
+        mMidiLogoIcon = findViewById(R.id.midilogo)
+        mMidiLogoIcon.setOnClickListener { onMidiLogoClick() }
 
 
         mHaveMIDIcheck = findViewById(R.id.havemidi)
@@ -193,6 +197,17 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         /*if ((context as MainActivity).m_midiconfig == null)
             context.m_midiconfig = MidiConfig (this, context)*/
         (context as MainActivity).changeView((context as MainActivity).mMidiConfig)
+    }
+
+    private fun onMidiLogoClick() {
+        val mainActivity = context as MainActivity
+        if (!mainActivity.connectAndroidUsbPeripheralMidi()) {
+            showErrorDialog(
+                context,
+                resources.getString(R.string.snomidiintitle),
+                resources.getString(R.string.nomidiconn)
+            )
+        }
     }
 
     private fun onEditClick (){
