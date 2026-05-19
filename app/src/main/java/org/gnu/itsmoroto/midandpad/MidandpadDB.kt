@@ -162,9 +162,9 @@ class MidandpadDB//else throw exception
         val values = ContentValues ()
         try {
             values.put("presetId", presetid)
-            values.put("type", MidiHelper.EventTypes.EVENT_NOTE.ordinal)
+            values.put("type", MidiHelper.EventTypes.EVENT_CONTROL.ordinal)
             values.put("noteoff", EventButton.NOTEOFFTYPES.SENDOFF.ordinal)
-            values.put("controloff", EventButton.CONTROLOFFTYPES.FIXED.ordinal)
+            values.put("controloff", EventButton.CONTROLOFFTYPES.MOMENTARY.ordinal)
             values.put("valueon", 127)
             values.put("valueoff", 0)
             values.put("channel", DEFAULT_CHANNEL)
@@ -210,7 +210,7 @@ class MidandpadDB//else throw exception
                 "Cue Master",
                 "Cue Ch2"
             )
-            values.put("notetoggle", 1)
+            values.put("controloff", EventButton.CONTROLOFFTYPES.TOGGLE.ordinal)
             values.put("valueoff", 127)
             for (name in mixerButtons) {
                 values.put("number", number)
