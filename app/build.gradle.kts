@@ -9,7 +9,7 @@ android {
     compileSdk = 35
     buildFeatures.buildConfig = true //Needed for buildConfigField to work.
     defaultConfig {
-        applicationId = "org.gnu.itsmoroto.midandpad"
+        applicationId = "org.gnu.rokiden.midandpad_dj"
         minSdk = 24
         targetSdk = 35
         versionCode = 5
@@ -22,6 +22,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -35,8 +36,7 @@ android {
     sourceSets {
         getByName("main") {
             res {
-                srcDirs("src/main/res", "src/main/res/eventbutton"
-                )
+                srcDirs("src/main/res")
             }
         }
     }
@@ -60,7 +60,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    implementation ("com.github.alpbak:BoxedVerticalSeekBar:1.1.1")
 }
 java {
     toolchain {

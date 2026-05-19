@@ -78,7 +78,7 @@ class ConfigParams (
         mMain.setPresetNameLabel (mCurrPresetName)
 
     }
-    public fun configButtons (buttons: Array<Array<EventButton>>){
+    public fun configButtons (buttons: Array<EventButton>){
         mDatabase.configButtons (mCurrPreset, buttons)
     }
 
@@ -102,11 +102,11 @@ class ConfigParams (
         return mDatabase.checkPresetName(name)
     }
 
-    fun savePreset (buttons: Array<Array<EventButton>>, bars: Array<CCBar>){
+    fun savePreset (buttons: Array<EventButton>, bars: Array<CCBar>){
         mDatabase.savePreset (mCurrPreset, buttons, bars);
     }
 
-    fun savePresetAs (name: String, buttons: Array<Array<EventButton>>, bars: Array<CCBar>):
+    fun savePresetAs (name: String, buttons: Array<EventButton>, bars: Array<CCBar>):
     Boolean{
         val now = mCurrPreset
         try {

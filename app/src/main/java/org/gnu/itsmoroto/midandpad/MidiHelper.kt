@@ -303,6 +303,54 @@ class MidiHelper(context: Context): DeviceCallback(){
     }
 
 
+    private fun isBidirectionalUsbDevice(deviceInfo: MidiDeviceInfo): Boolean {
+        return deviceInfo.inputPortCount > 0 &&
+            deviceInfo.outputPortCount > 0 &&
+            deviceInfo.type == MidiDeviceInfo.TYPE_USB
+    }
+
+    private fun hasAndroidUsbPeripheralProperties(deviceInfo: MidiDeviceInfo): Boolean {
+        val normalizedProps = buildString {
+            append(deviceInfo.properties.getString(MidiDeviceInfo.PROPERTY_NAME) ?: "")
+            append(" ")
+            append(deviceInfo.properties.getString(MidiDeviceInfo.PROPERTY_MANUFACTURER) ?: "")
+            append(" ")
+            append(deviceInfo.properties.getString(MidiDeviceInfo.PROPERTY_PRODUCT) ?: "")
+        }.trim().lowercase()
+        // Android USB peripheral MIDI endpoints typically expose Android/USB-oriented labels.
+        // We prefer these labels first, then fall back to any bidirectional USB MIDI endpoint.
+        return normalizedProps.contains("android") &&
+            (normalizedProps.contains("usb") ||
+                normalizedProps.contains("peripheral"))
+    }
+
+    /**
+     * Returns true if an Android USB peripheral candidate was found and open requests were issued.
+     * The actual open operations are asynchronous and may still fail later.
+     */
+    fun connectAndroidUsbPeripheral(): Boolean {
+        val usbCandidates = mDevicesOut.filter { isBidirectionalUsbDevice(it) }
+        val candidate = usbCandidates.firstOrNull { hasAndroidUsbPeripheralProperties(it) }
+            ?: usbCandidates.firstOrNull()
+            ?: return false
+        // App output writes to device input ports; app input reads from device output ports.
+        val outputToDevicePortNumber = candidate.ports
+            .firstOrNull { it.type == MidiDeviceInfo.PortInfo.TYPE_INPUT }
+            ?.portNumber ?: run {
+                Log.w(ConfigParams.MODULE, "No input port available on selected USB MIDI candidate")
+                return false
+            }
+        val inputFromDevicePortNumber = candidate.ports
+            .firstOrNull { it.type == MidiDeviceInfo.PortInfo.TYPE_OUTPUT }
+            ?.portNumber ?: run {
+                Log.w(ConfigParams.MODULE, "No output port available on selected USB MIDI candidate")
+                return false
+            }
+        openDeviceOut(candidate, outputToDevicePortNumber)
+        openDeviceIn(candidate, inputFromDevicePortNumber)
+        return true
+    }
+
     fun haveConnection (): Boolean{
         return (mDeviceOut != null && mOutPort != null)
     }

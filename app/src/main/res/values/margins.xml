@@ -5,7 +5,7 @@
     <dimen name="stdmargin">20dp</dimen>
     <dimen name="posttitlemargin">50dp</dimen>
     <dimen name="controlbuttonmargin">30dp</dimen>
-    <dimen name="midibuttonmargin">10dp</dimen>
+    <dimen name="midibuttonmargin">4dp</dimen>
     <integer name="barbottompadding">20</integer>
     <dimen name="controlvaluemargin">50dp</dimen>
 </resources>

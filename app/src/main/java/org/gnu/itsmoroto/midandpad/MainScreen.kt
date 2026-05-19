@@ -3,9 +3,11 @@ package org.gnu.itsmoroto.midandpad
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainScreen (context: Context): ConstraintLayout(context) {
 
+    private val mEqResetDefaultValue = 64f
 
 
 
@@ -23,6 +26,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mRunButton:ImageButton
     private val mExploreButton:ImageButton
     private val mCalibrationButton: ImageButton
+    private val mMidiLogoIcon: ImageView
 
     private val mHaveMIDIcheck: CheckBox
     private val mHaveClockCheck:CheckBox
@@ -30,19 +34,13 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mCurrPresetLabel: TextView
 
     companion object{
-        public const val BUTTONROWS = 3
-        public const val BUTTONCOLS = 4
-        public const val CONTROLSCOUNT = 4
-        private lateinit var mEventButtons: Array<Array<EventButton>>
+        public const val CONTROLSCOUNT = 8
+        private lateinit var mEventButtons: Array<EventButton>
         private lateinit var mControlBars: Array<CCBar>
         fun clockTick (){
-
-                for (arr in mEventButtons) {
-                    for (b in arr) {
-
-                                b.tick()
-                    }
-                }
+            for (b in mEventButtons) {
+                b.tick()
+            }
         }
     }
 
@@ -80,6 +78,8 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mCalibrationButton.setOnClickListener {_: View->
             onCalibrationClick ()
         }
+        mMidiLogoIcon = findViewById(R.id.midilogo)
+        mMidiLogoIcon.setOnClickListener { onMidiLogoClick() }
 
 
         mHaveMIDIcheck = findViewById(R.id.havemidi)
@@ -89,40 +89,105 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
         mCurrPresetLabel = findViewById(R.id.labelpreset)
 
+        val deck1 = findViewById<ConstraintLayout>(R.id.deck1)
+        val deck2 = findViewById<ConstraintLayout>(R.id.deck2)
+        val mixer = findViewById<ConstraintLayout>(R.id.mixer)
+
         mEventButtons = arrayOf(
-            arrayOf(findViewById(R.id.button11) as EventButton,
-                findViewById (R.id.button12) as EventButton,
-                findViewById(R.id.button13) as EventButton,
-                findViewById(R.id.button14) as EventButton),
-            arrayOf(findViewById(R.id.button21) as EventButton,
-                findViewById (R.id.button22) as EventButton,
-                findViewById(R.id.button23) as EventButton,
-                findViewById(R.id.button24) as EventButton),
-            arrayOf(findViewById(R.id.button31) as EventButton,
-                findViewById (R.id.button32) as EventButton,
-                findViewById(R.id.button33) as EventButton,
-                findViewById(R.id.button34) as EventButton))
+            // Deck 1
+            deck1.findViewById(R.id.btn_loop_in) as EventButton,
+            deck1.findViewById(R.id.btn_loop_out) as EventButton,
+            deck1.findViewById(R.id.btn_loop_auto) as EventButton,
+            deck1.findViewById(R.id.btn_jump_back_16) as EventButton,
+            deck1.findViewById(R.id.btn_jump_back_4) as EventButton,
+            deck1.findViewById(R.id.btn_jump_forward_4) as EventButton,
+            deck1.findViewById(R.id.btn_jump_forward_16) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_1) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_2) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_3) as EventButton,
+            deck1.findViewById(R.id.btn_hotcue_4) as EventButton,
+            deck1.findViewById(R.id.btn_play_pause) as EventButton,
+            deck1.findViewById(R.id.btn_cue) as EventButton,
+            deck1.findViewById(R.id.btn_sync) as EventButton,
+            // Deck 2
+            deck2.findViewById(R.id.btn_loop_in) as EventButton,
+            deck2.findViewById(R.id.btn_loop_out) as EventButton,
+            deck2.findViewById(R.id.btn_loop_auto) as EventButton,
+            deck2.findViewById(R.id.btn_jump_back_16) as EventButton,
+            deck2.findViewById(R.id.btn_jump_back_4) as EventButton,
+            deck2.findViewById(R.id.btn_jump_forward_4) as EventButton,
+            deck2.findViewById(R.id.btn_jump_forward_16) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_1) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_2) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_3) as EventButton,
+            deck2.findViewById(R.id.btn_hotcue_4) as EventButton,
+            deck2.findViewById(R.id.btn_play_pause) as EventButton,
+            deck2.findViewById(R.id.btn_cue) as EventButton,
+            deck2.findViewById(R.id.btn_sync) as EventButton,
+            // Mixer
+            mixer.findViewById(R.id.btn_cue_1) as EventButton,
+            mixer.findViewById(R.id.btn_cue_m) as EventButton,
+            mixer.findViewById(R.id.btn_cue_2) as EventButton
+        )
         mEditButton.setBackgroundResource(android.R.drawable.btn_default)
-        for (i in 0..BUTTONROWS - 1){
-            for (j in 0..BUTTONCOLS - 1)
-                mEventButtons[i][j].mNumber = (i+1)*10 + j+1
-        }
-        mControlBars = arrayOf(findViewById(R.id.ctrl1) as CCBar,
-            findViewById(R.id.ctrl2) as CCBar,
-            findViewById(R.id.ctrl3) as CCBar,
-            findViewById(R.id.ctrl4) as CCBar)
+        mEventButtons.forEachIndexed { i, b -> b.mNumber = i + 1 }
+        mControlBars = arrayOf(
+            // Deck 1
+            deck1.findViewById(R.id.slider_eq1) as CCBar,
+            deck1.findViewById(R.id.slider_eq2) as CCBar,
+            deck1.findViewById(R.id.slider_eq3) as CCBar,
+            // Deck 2
+            deck2.findViewById(R.id.slider_eq1) as CCBar,
+            deck2.findViewById(R.id.slider_eq2) as CCBar,
+            deck2.findViewById(R.id.slider_eq3) as CCBar,
+            // Mixer
+            mixer.findViewById(R.id.slider_deck_1) as CCBar,
+            mixer.findViewById(R.id.slider_deck_2) as CCBar
+        )
 
+        mControlBars.forEach { it.setLabelWidget(TextView(context)) }
+        mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
 
+        setupEqResetButton(deck1, R.id.btn_R1, R.id.slider_eq1)
+        setupEqResetButton(deck1, R.id.btn_R2, R.id.slider_eq2)
+        setupEqResetButton(deck1, R.id.btn_R3, R.id.slider_eq3)
+        setupEqResetButton(deck2, R.id.btn_R1, R.id.slider_eq1)
+        setupEqResetButton(deck2, R.id.btn_R2, R.id.slider_eq2)
+        setupEqResetButton(deck2, R.id.btn_R3, R.id.slider_eq3)
 
-        mControlBars[0].setLabelWidget(findViewById(R.id.label1))
-        mControlBars[1].setLabelWidget(findViewById(R.id.label2))
-        mControlBars[2].setLabelWidget(findViewById(R.id.label3))
-        mControlBars[3].setLabelWidget(findViewById(R.id.label4))
-        for (i in 0..CONTROLSCOUNT -1){
-            mControlBars[i].mNumber = i+1
-        }
         configControls()
     }
+
+    private fun setupEqResetButton(deck: ConstraintLayout, buttonId: Int, sliderId: Int) {
+        val resetButton = deck.findViewById<Button>(buttonId)
+        val slider = deck.findViewById<CCBar>(sliderId)
+
+        fun getTargetValue(): Float {
+            return if (slider.mDefaultValue >= slider.valueFrom && slider.mDefaultValue <= slider.valueTo) {
+                slider.mDefaultValue
+            } else {
+                mEqResetDefaultValue
+            }
+        }
+
+        fun updateResetButtonState(value: Float) {
+            val isDefaultValue = value == getTargetValue()
+            resetButton.isEnabled = !isDefaultValue
+            // resetButton.alpha = if (isDefaultValue) 0.5f else 1f
+        }
+
+        slider.addOnChangeListener { _, value, _ ->
+            updateResetButtonState(value)
+        }
+
+        resetButton.setOnClickListener {
+            slider.value = getTargetValue()
+            updateResetButtonState(slider.value)
+        }
+
+        updateResetButtonState(slider.value)
+    }
+
     fun configControls (){
         MainActivity.mConfigParams.configButtons(mEventButtons)
         MainActivity.mConfigParams.configBars (mControlBars)
@@ -132,6 +197,17 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         /*if ((context as MainActivity).m_midiconfig == null)
             context.m_midiconfig = MidiConfig (this, context)*/
         (context as MainActivity).changeView((context as MainActivity).mMidiConfig)
+    }
+
+    private fun onMidiLogoClick() {
+        val mainActivity = context as MainActivity
+        if (!mainActivity.connectAndroidUsbPeripheralMidi()) {
+            showErrorDialog(
+                context,
+                resources.getString(R.string.snomidiintitle),
+                resources.getString(R.string.nomidiconn)
+            )
+        }
     }
 
     private fun onEditClick (){
@@ -213,7 +289,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     }
 
     fun setPresetName (name: String){
-        mCurrPresetLabel.text = "${resources.getString(R.string.spreset)}: ${name}"
+        mCurrPresetLabel.text = name
     }
 
 }

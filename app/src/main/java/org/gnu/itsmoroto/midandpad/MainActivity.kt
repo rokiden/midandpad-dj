@@ -18,6 +18,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.documentfile.provider.DocumentFile
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -143,6 +146,15 @@ class MainActivity : AppCompatActivity(), Runnable {
 
     }
 
+    private fun setupFullscreen() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+            systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
+
     private fun doAfter (){ //things needs run mainloop after splash
         mTouchCalibration = TouchCalibration(this)
         mButtonConfigScreen = BtnConfigScreen(this)
@@ -178,6 +190,7 @@ class MainActivity : AppCompatActivity(), Runnable {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupFullscreen()
         setContentView(R.layout.maincontainer)
         mContainer = findViewById(R.id.container)
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_MIDI)){
@@ -208,6 +221,13 @@ class MainActivity : AppCompatActivity(), Runnable {
         val m = Message.obtain()
         m.obj = AppEvents.DEBUG
         mMsgHandler.sendMessage(m)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            setupFullscreen()
+        }
     }
 
     fun changeView (v:View?){
@@ -276,6 +296,10 @@ class MainActivity : AppCompatActivity(), Runnable {
 
     fun updateChannelPPQ (){
         mMidiConfig.updateChannelPPQ()
+    }
+
+    fun connectAndroidUsbPeripheralMidi(): Boolean {
+        return mMidi.connectAndroidUsbPeripheral()
     }
 
     override fun run() {

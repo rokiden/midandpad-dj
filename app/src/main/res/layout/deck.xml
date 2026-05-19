@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/block_deck"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_eqs"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/block_loop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.60"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/block_eq1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/block_eq2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btn_R1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dip"
+                android:minHeight="60dip"
+                android:text="R"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/slider_eq1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <org.gnu.itsmoroto.midandpad.CCBar
+                android:id="@+id/slider_eq1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="slider_eq1"
+                android:stepSize="1"
+                android:value="64"
+                android:valueFrom="0"
+                android:valueTo="127"
+                app:labelBehavior="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_R1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tickVisible="false"
+                app:thumbHeight="@dimen/ccbar_thumb_height"
+                app:trackHeight="@dimen/ccbar_track_height" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/block_eq2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/block_eq3"
+            app:layout_constraintStart_toEndOf="@+id/block_eq1"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btn_R2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dip"
+                android:minHeight="60dip"
+                android:text="R"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/slider_eq2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <org.gnu.itsmoroto.midandpad.CCBar
+                android:id="@+id/slider_eq2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="slider_eq2"
+                android:stepSize="1"
+                android:value="64"
+                android:valueFrom="0"
+                android:valueTo="127"
+                app:labelBehavior="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_R2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tickVisible="false"
+                app:thumbHeight="@dimen/ccbar_thumb_height"
+                app:trackHeight="@dimen/ccbar_track_height" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/block_eq3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/block_eq2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btn_R3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="56dip"
+                android:minHeight="60dip"
+                android:text="R"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/slider_eq3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <org.gnu.itsmoroto.midandpad.CCBar
+                android:id="@+id/slider_eq3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="slider_eq3"
+                android:stepSize="1"
+                android:value="64"
+                android:valueFrom="0"
+                android:valueTo="127"
+                app:labelBehavior="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_R3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tickVisible="false"
+                app:thumbHeight="@dimen/ccbar_thumb_height"
+                app:trackHeight="@dimen/ccbar_track_height" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_loop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/block_jump"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/block_eqs"
+        app:layout_constraintVertical_weight="1">
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_loop_in"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorLoop"
+            android:text="Loop In"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_loop_out"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_loop_out"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorLoop"
+            android:text="Loop Out"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_loop_auto"
+            app:layout_constraintStart_toEndOf="@+id/btn_loop_in"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_loop_auto"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorLoop"
+            android:text="Loop Auto"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_loop_out"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_jump"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/block_hotcue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/block_loop"
+        app:layout_constraintVertical_weight="1">
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_jump_back_16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorJump"
+            android:text="&lt;&lt;&lt;&lt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_jump_back_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_jump_back_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorJump"
+            android:text="&lt;&lt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_jump_forward_4"
+            app:layout_constraintStart_toEndOf="@+id/btn_jump_back_16"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_jump_forward_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorJump"
+            android:text=">>"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_jump_forward_16"
+            app:layout_constraintStart_toEndOf="@+id/btn_jump_back_4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_jump_forward_16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorJump"
+            android:text=">>>>"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_jump_forward_4"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_hotcue"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/block_transport"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/block_jump"
+        app:layout_constraintVertical_weight="1">
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_hotcue_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorHotcue1"
+            android:text="A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_hotcue_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_hotcue_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorHotcue2"
+            android:text="B"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_hotcue_3"
+            app:layout_constraintStart_toEndOf="@+id/btn_hotcue_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_hotcue_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorHotcue3"
+            android:text="C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_hotcue_4"
+            app:layout_constraintStart_toEndOf="@+id/btn_hotcue_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_hotcue_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorHotcue4"
+            android:text="D"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_hotcue_3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/block_transport"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/block_hotcue"
+        app:layout_constraintVertical_weight="1">
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_play_pause"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorPlay"
+            android:text="Play/Pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_cue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_cue"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorCue"
+            android:text="CUE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_sync"
+            app:layout_constraintStart_toEndOf="@+id/btn_play_pause"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.gnu.itsmoroto.midandpad.EventButton
+            android:id="@+id/btn_sync"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/midibuttonmargin"
+            app:offColor="@color/colorSync"
+            android:text="Sync"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_cue"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
