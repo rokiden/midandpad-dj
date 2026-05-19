@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 
 class MidandpadDB//else throw exception
     (context: Context?) : SQLiteOpenHelper(
@@ -135,19 +134,33 @@ class MidandpadDB//else throw exception
             values.put("presetId", presetid)
             values.put("rz", 0)
             values.put("zeropos", 0)
-            val barNames = listOf("EQ Hi", "EQ Mid", "EQ Lo", "Vol Deck")
+            values.put("defval", 64)
 
             var number = 1
+
+            val eqNames = listOf("EQ Lo", "EQ Mid", "EQ Hi")
             for (deck in 1..2) {
-                for (barName in barNames) {
+                for (barName in eqNames) {
                     values.put("number", number)
                     values.put("name", "$barName $deck")
                     values.put("control", number + 64)
-                    values.put("defval", 64)
                     db.insertOrThrow("Bars", null, values)
                     number++
                 }
             }
+
+            values.put("defval", 127)
+            val mixerNames = listOf("Vol Deck")
+            for (deck in 1..2) {
+                for (barName in mixerNames) {
+                    values.put("number", number)
+                    values.put("name", "$barName $deck")
+                    values.put("control", number + 64)
+                    db.insertOrThrow("Bars", null, values)
+                    number++
+                }
+            }
+
         }
         catch (e: Exception){
             val msg = mContext.getString(R.string.sinserterror).replace(
