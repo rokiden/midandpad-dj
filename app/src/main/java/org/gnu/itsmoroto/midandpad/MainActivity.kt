@@ -299,7 +299,7 @@ class MainActivity : AppCompatActivity(), Runnable {
     }
 
     fun connectAndroidUsbPeripheralMidi(): Boolean {
-        return mMidi.connectAndroidUsbPeripheralInOut()
+        return mMidi.connectAndroidUsbPeripheral()
     }
 
     override fun run() {

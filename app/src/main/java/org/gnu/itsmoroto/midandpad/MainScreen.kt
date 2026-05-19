@@ -26,7 +26,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mRunButton:ImageButton
     private val mExploreButton:ImageButton
     private val mCalibrationButton: ImageButton
-    private val mMidiLogo: ImageView
+    private val mMidiLogoIcon: ImageView
 
     private val mHaveMIDIcheck: CheckBox
     private val mHaveClockCheck:CheckBox
@@ -78,10 +78,8 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mCalibrationButton.setOnClickListener {_: View->
             onCalibrationClick ()
         }
-        mMidiLogo = findViewById(R.id.midilogo)
-        mMidiLogo.setOnClickListener { _: View ->
-            onMidiLogoClick()
-        }
+        mMidiLogoIcon = findViewById(R.id.midilogo)
+        mMidiLogoIcon.setOnClickListener { onMidiLogoClick() }
 
 
         mHaveMIDIcheck = findViewById(R.id.havemidi)
@@ -202,7 +200,8 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     }
 
     private fun onMidiLogoClick() {
-        if (!(context as MainActivity).connectAndroidUsbPeripheralMidi()) {
+        val mainActivity = context as MainActivity
+        if (!mainActivity.connectAndroidUsbPeripheralMidi()) {
             showErrorDialog(
                 context,
                 resources.getString(R.string.snomidiintitle),
