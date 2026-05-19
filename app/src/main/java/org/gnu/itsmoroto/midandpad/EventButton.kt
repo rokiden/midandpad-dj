@@ -1,6 +1,7 @@
 package org.gnu.itsmoroto.midandpad
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
@@ -397,10 +398,21 @@ class EventButton : MaterialButton {
         }
     }
 
+    private fun getMainActivity(): MainActivity {
+        var ctx: Context = context
+        while (ctx is ContextWrapper) {
+            if (ctx is MainActivity) return ctx
+            ctx = ctx.baseContext
+        }
+        if (ctx is MainActivity) return ctx
+        throw IllegalStateException("EventButton not attached to MainActivity")
+    }
+
     private fun onclick (){
         if (MainActivity.mConfigParams.mMode == ConfigParams.EDIT_MODE) {
-            (context as MainActivity).mButtonConfigScreen.setButton(this)
-            (context as MainActivity).changeView((context as MainActivity).mButtonConfigScreen)
+            val activity = getMainActivity()
+            activity.mButtonConfigScreen.setButton(this)
+            activity.changeView(activity.mButtonConfigScreen)
         }
         else if (!MainActivity.mMidi.haveConnection()){
             showErrorDialog(context, "MIDI error", context.getString(R.string.nomidiconn))
