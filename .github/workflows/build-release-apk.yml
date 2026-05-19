@@ -1,18 +1,13 @@
-name: Build APK
+name: Build Release APK
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - "master"
-      - "dev"
-  pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  build-debug-apk:
+  build-release-apk:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,13 +24,13 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug
+      - name: Build release APK (debug signing)
+        run: ./gradlew assembleRelease
 
-      - name: Upload debug APK
+      - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-apk
+          path: app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 14
