@@ -211,6 +211,7 @@ class MidandpadDB//else throw exception
                 "Cue Ch2"
             )
             values.put("notetoggle", 1)
+            values.put("valueoff", 127)
             for (name in mixerButtons) {
                 values.put("number", number)
                 values.put("name", name)
