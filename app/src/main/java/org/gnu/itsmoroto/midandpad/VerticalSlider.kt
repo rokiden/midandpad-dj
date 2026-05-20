@@ -2,8 +2,8 @@ package org.gnu.itsmoroto.midandpad
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -19,8 +19,7 @@ open class VerticalSlider : Slider {
     var neutralMarkValue: Float = 64f
 
     private val neutralMarkPaint = Paint().apply {
-        color = Color.WHITE
-        style = Paint.Style.STROKE
+        style = Paint.Style.FILL
         isAntiAlias = true
     }
 
@@ -53,9 +52,11 @@ open class VerticalSlider : Slider {
     private fun drawNeutralMark(canvas: Canvas) {
         if (valueTo == valueFrom) return
         val fraction = (neutralMarkValue - valueFrom) / (valueTo - valueFrom)
-        neutralMarkPaint.strokeWidth = neutralMarkStrokeWidthPx
+        val halfHeight = neutralMarkStrokeWidthPx / 2f
         val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
-        canvas.drawLine(0f, markY, width.toFloat(), markY, neutralMarkPaint)
+        neutralMarkPaint.color = trackInactiveTintList.defaultColor
+        val rect = RectF(0f, markY - halfHeight, width.toFloat(), markY + halfHeight)
+        canvas.drawRoundRect(rect, halfHeight, halfHeight, neutralMarkPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
