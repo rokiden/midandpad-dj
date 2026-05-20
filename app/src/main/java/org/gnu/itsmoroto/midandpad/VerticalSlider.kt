@@ -27,9 +27,6 @@ open class VerticalSlider : Slider {
     private val neutralMarkSidePadPx by lazy {
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics)
     }
-    private val neutralMarkStrokeWidthPx by lazy {
-        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, resources.displayMetrics)
-    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(h, w, oldh, oldw)
@@ -52,9 +49,11 @@ open class VerticalSlider : Slider {
     private fun drawNeutralMark(canvas: Canvas) {
         if (valueTo == valueFrom) return
         val fraction = (neutralMarkValue - valueFrom) / (valueTo - valueFrom)
-        val halfHeight = neutralMarkStrokeWidthPx / 2f
+        // Use thumb diameter for mark height so it matches the thumb size
+        val halfHeight = thumbRadius.toFloat()
         val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
-        neutralMarkPaint.color = trackInactiveTintList.defaultColor
+        // Force full alpha — the inactive track tint has baked-in transparency (night mode)
+        neutralMarkPaint.color = trackInactiveTintList.defaultColor or 0xFF000000.toInt()
         val rect = RectF(0f, markY - halfHeight, width.toFloat(), markY + halfHeight)
         canvas.drawRoundRect(rect, halfHeight, halfHeight, neutralMarkPaint)
     }
