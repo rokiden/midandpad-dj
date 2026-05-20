@@ -14,6 +14,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
     constructor(context: Context?, attributeSet: AttributeSet): super (context!!, attributeSet){
         val a = context.obtainStyledAttributes(attributeSet, R.styleable.CCBar)
         mSnapZone = a.getInt(R.styleable.CCBar_snapZone, 0)
+        isHorizontal = a.getBoolean(R.styleable.CCBar_horizontal, false)
         a.recycle()
         neutralMarkEnabled = mSnapZone > 0
         setOnClick ()

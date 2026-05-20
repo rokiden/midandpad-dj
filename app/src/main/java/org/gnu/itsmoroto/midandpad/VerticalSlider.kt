@@ -15,6 +15,7 @@ open class VerticalSlider : Slider {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+    var isHorizontal: Boolean = false
     var neutralMarkEnabled: Boolean = false
     var neutralMarkValue: Float = 64f
 
@@ -29,44 +30,64 @@ open class VerticalSlider : Slider {
     }
 
     // Captured once at attach time so thumb press animation doesn't change the mark size
-    private var neutralMarkHalfHeightPx: Float = 0f
+    private var neutralMarkHalfThumbPx: Float = 0f
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        neutralMarkHalfHeightPx = thumbRadius.toFloat()
+        neutralMarkHalfThumbPx = thumbRadius.toFloat()
         neutralMarkPaint.color = thumbTintList?.defaultColor ?: 0xFFAAAAAA.toInt()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(h, w, oldh, oldw)
+        if (isHorizontal) {
+            super.onSizeChanged(w, h, oldw, oldh)
+        } else {
+            super.onSizeChanged(h, w, oldh, oldw)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(heightMeasureSpec, widthMeasureSpec)
-        setMeasuredDimension(measuredHeight, measuredWidth)
+        if (isHorizontal) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        } else {
+            super.onMeasure(heightMeasureSpec, widthMeasureSpec)
+            setMeasuredDimension(measuredHeight, measuredWidth)
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
-        if (neutralMarkEnabled && valueTo > valueFrom && height > 0) {
+        if (neutralMarkEnabled && valueTo > valueFrom && width > 0 && height > 0) {
             drawNeutralMark(canvas)
         }
-        canvas.rotate(-90f)
-        canvas.translate(-height.toFloat(), 0f)
+        if (!isHorizontal) {
+            canvas.rotate(-90f)
+            canvas.translate(-height.toFloat(), 0f)
+        }
         super.onDraw(canvas)
     }
 
     private fun drawNeutralMark(canvas: Canvas) {
         if (valueTo == valueFrom) return
         val fraction = (neutralMarkValue - valueFrom) / (valueTo - valueFrom)
-        val halfHeight = neutralMarkHalfHeightPx
-        val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
-        val rect = RectF(0f, markY - halfHeight, width.toFloat(), markY + halfHeight)
-        canvas.drawRoundRect(rect, halfHeight, halfHeight, neutralMarkPaint)
+        val halfThumb = neutralMarkHalfThumbPx
+        if (isHorizontal) {
+            val markX = neutralMarkSidePadPx + fraction * (width - 2f * neutralMarkSidePadPx)
+            val rect = RectF(markX - halfThumb, 0f, markX + halfThumb, height.toFloat())
+            canvas.drawRoundRect(rect, halfThumb, halfThumb, neutralMarkPaint)
+        } else {
+            val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
+            val rect = RectF(0f, markY - halfThumb, width.toFloat(), markY + halfThumb)
+            canvas.drawRoundRect(rect, halfThumb, halfThumb, neutralMarkPaint)
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) {
             return false
+        }
+
+        if (isHorizontal) {
+            return super.onTouchEvent(event)
         }
 
         val rotatedEvent = MotionEvent.obtain(event)
