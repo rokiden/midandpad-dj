@@ -12,6 +12,9 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         setOnClick()
     }
     constructor(context: Context?, attributeSet: AttributeSet): super (context!!, attributeSet){
+        val a = context.obtainStyledAttributes(attributeSet, R.styleable.CCBar)
+        mSnapZone = a.getInt(R.styleable.CCBar_snapZone, 0)
+        a.recycle()
         setOnClick ()
     }
 

@@ -31,7 +31,6 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
     companion object{
         public const val CONTROLSCOUNT = 8
-        private const val EQ_SNAP_ZONE = 4
         private lateinit var mEventButtons: Array<EventButton>
         private lateinit var mControlBars: Array<CCBar>
         fun clockTick (){
@@ -157,7 +156,6 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
     private fun setupEqSnapZone(deck: ConstraintLayout, sliderId: Int) {
         val slider = deck.findViewById<CCBar>(sliderId)
-        slider.mSnapZone = EQ_SNAP_ZONE
         slider.neutralMarkEnabled = true
     }
 

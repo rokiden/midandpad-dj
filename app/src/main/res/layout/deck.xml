@@ -41,6 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:snapZone="@integer/ccbar_snap_zone"
                 app:tickVisible="false"
                 app:thumbHeight="@dimen/ccbar_thumb_height"
                 app:trackHeight="@dimen/ccbar_track_height" />
@@ -70,6 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:snapZone="@integer/ccbar_snap_zone"
                 app:tickVisible="false"
                 app:thumbHeight="@dimen/ccbar_thumb_height"
                 app:trackHeight="@dimen/ccbar_track_height" />
@@ -99,6 +101,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:snapZone="@integer/ccbar_snap_zone"
                 app:tickVisible="false"
                 app:thumbHeight="@dimen/ccbar_thumb_height"
                 app:trackHeight="@dimen/ccbar_track_height" />
