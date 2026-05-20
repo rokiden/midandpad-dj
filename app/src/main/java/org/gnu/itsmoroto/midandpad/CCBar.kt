@@ -123,11 +123,11 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
                 } else {
                     (valueFrom + valueTo) / 2f
                 }
-                if (Math.abs(value - snapTarget) <= mSnapZone.toFloat()) {
+                if (kotlin.math.abs(value - snapTarget) <= mSnapZone.toFloat()) {
                     val channel = if (mChannel != MidandpadDB.DEFAULT_CHANNEL) mChannel.toUByte()
                         else MainActivity.mConfigParams.mDefaultChannel
                     val command: UByte = MidiHelper.STATUS_CONTROL_CHANGE or channel
-                    val msg = ubyteArrayOf(mControl.toUByte(), snapTarget.toInt().toUByte())
+                    val msg = ubyteArrayOf(mControl.toUByte(), snapTarget.toInt().coerceIn(0, 127).toUByte())
                     MainActivity.mMidi.send(command, msg.toByteArray())
                     // Temporarily remove only this listener to avoid recursive callbacks.
                     removeOnChangeListener(this)

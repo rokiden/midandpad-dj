@@ -43,6 +43,7 @@ open class VerticalSlider : Slider {
     }
 
     private fun drawNeutralMark(canvas: Canvas) {
+        if (valueTo == valueFrom) return
         val fraction = (neutralMarkValue - valueFrom) / (valueTo - valueFrom)
         // Material Slider track side padding: max(defaultThumbRadius=10dp, minTouchTargetSize/2=24dp) = 24dp
         val sidePadPx = TypedValue.applyDimension(
