@@ -28,6 +28,15 @@ open class VerticalSlider : Slider {
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics)
     }
 
+    // Captured once at attach time so thumb press animation doesn't change the mark size
+    private var neutralMarkHalfHeightPx: Float = 0f
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        neutralMarkHalfHeightPx = thumbRadius.toFloat()
+        neutralMarkPaint.color = thumbTintList?.defaultColor ?: 0xFFAAAAAA.toInt()
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(h, w, oldh, oldw)
     }
@@ -49,11 +58,8 @@ open class VerticalSlider : Slider {
     private fun drawNeutralMark(canvas: Canvas) {
         if (valueTo == valueFrom) return
         val fraction = (neutralMarkValue - valueFrom) / (valueTo - valueFrom)
-        // Use thumb diameter for mark height so it matches the thumb size
-        val halfHeight = thumbRadius.toFloat()
+        val halfHeight = neutralMarkHalfHeightPx
         val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
-        // Force full alpha — the inactive track tint has baked-in transparency (night mode)
-        neutralMarkPaint.color = trackInactiveTintList.defaultColor or 0xFF000000.toInt()
         val rect = RectF(0f, markY - halfHeight, width.toFloat(), markY + halfHeight)
         canvas.drawRoundRect(rect, halfHeight, halfHeight, neutralMarkPaint)
     }
