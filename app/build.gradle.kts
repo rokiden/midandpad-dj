@@ -15,7 +15,7 @@ android {
         versionCode = 5
         versionName = "1.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("Integer", "dbversion", "2")
+        buildConfigField("Integer", "dbversion", "3")
     }
 
     buildTypes {

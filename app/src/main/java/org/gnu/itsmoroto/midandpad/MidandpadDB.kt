@@ -82,11 +82,34 @@ class MidandpadDB//else throw exception
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         if (db == null)
             return;
-        //dbversion is configured in build.gradle.kts(:app)
-        if (oldVersion < mVersion){
-            //Do stuff
-            if (oldVersion < newVersion){
-                db.execSQL("ALTER TABLE Buttons ADD COLUMN notetoggle INTEGER default 0");
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE Buttons ADD COLUMN notetoggle INTEGER default 0")
+        }
+        if (oldVersion < 3) {
+            // Shift mixer fader bars (7-8) up by 2 to make room for the new CFX slots
+            db.execSQL("UPDATE Bars SET number = number + 2 WHERE number >= 7")
+            // Shift deck 2 EQ bars (4-6) up by 1 to insert CFX at slot 4
+            db.execSQL("UPDATE Bars SET number = number + 1 WHERE number >= 4 AND number <= 6")
+            // Insert CFX bars for each existing preset
+            val presetCursor = db.query("Presets", arrayOf("presetId"), null, null, null, null, null)
+            if (presetCursor.moveToFirst()) {
+                val cfxValues = ContentValues()
+                cfxValues.put("rz", 0)
+                cfxValues.put("zeropos", 0)
+                cfxValues.put("defval", 64)
+                do {
+                    val presetId = presetCursor.getLong(0)
+                    cfxValues.put("presetId", presetId)
+                    cfxValues.put("number", 4)
+                    cfxValues.put("name", "CFX 1")
+                    cfxValues.put("control", 68)
+                    db.insertOrThrow("Bars", null, cfxValues)
+                    cfxValues.put("number", 8)
+                    cfxValues.put("name", "CFX 2")
+                    cfxValues.put("control", 72)
+                    db.insertOrThrow("Bars", null, cfxValues)
+                } while (presetCursor.moveToNext())
+                presetCursor.close()
             }
         }
     }
@@ -138,7 +161,7 @@ class MidandpadDB//else throw exception
 
             var number = 1
 
-            val eqNames = listOf("EQ Lo", "EQ Mid", "EQ Hi")
+            val eqNames = listOf("EQ Lo", "EQ Mid", "EQ Hi", "CFX")
             for (deck in 1..2) {
                 for (barName in eqNames) {
                     values.put("number", number)

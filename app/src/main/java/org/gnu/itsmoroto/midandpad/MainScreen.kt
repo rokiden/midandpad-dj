@@ -30,7 +30,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
     private val mCurrPresetLabel: TextView
 
     companion object{
-        public const val CONTROLSCOUNT = 8
+        public const val CONTROLSCOUNT = 10
         private lateinit var mEventButtons: Array<EventButton>
         private lateinit var mControlBars: Array<CCBar>
         fun clockTick (){
@@ -132,16 +132,28 @@ class MainScreen (context: Context): ConstraintLayout(context) {
             deck1.findViewById(R.id.slider_eq1) as CCBar,
             deck1.findViewById(R.id.slider_eq2) as CCBar,
             deck1.findViewById(R.id.slider_eq3) as CCBar,
+            deck1.findViewById(R.id.slider_eq4) as CCBar,
             // Deck 2
             deck2.findViewById(R.id.slider_eq1) as CCBar,
             deck2.findViewById(R.id.slider_eq2) as CCBar,
             deck2.findViewById(R.id.slider_eq3) as CCBar,
+            deck2.findViewById(R.id.slider_eq4) as CCBar,
             // Mixer
             mixer.findViewById(R.id.slider_deck_1) as CCBar,
             mixer.findViewById(R.id.slider_deck_2) as CCBar
         )
 
-        mControlBars.forEach { it.setLabelWidget(TextView(context)) }
+        // Wire layout labels for EQ/CFX bars in each deck
+        val deckViews = listOf(deck1, deck2)
+        val eqLabelIds = listOf(R.id.label_eq1, R.id.label_eq2, R.id.label_eq3, R.id.label_eq4)
+        deckViews.forEachIndexed { deckIdx, deckView ->
+            eqLabelIds.forEachIndexed { eqIdx, labelId ->
+                mControlBars[deckIdx * 4 + eqIdx].setLabelWidget(deckView.findViewById(labelId))
+            }
+        }
+        // Mixer bars use dummy labels (not shown in layout)
+        mControlBars[8].setLabelWidget(TextView(context))
+        mControlBars[9].setLabelWidget(TextView(context))
         mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
 
         configControls()
