@@ -24,6 +24,14 @@ open class VerticalSlider : Slider {
         isAntiAlias = true
     }
 
+    // Material Slider track side padding: max(defaultThumbRadius=10dp, minTouchTargetSize/2=24dp) = 24dp
+    private val neutralMarkSidePadPx by lazy {
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics)
+    }
+    private val neutralMarkStrokeWidthPx by lazy {
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, resources.displayMetrics)
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(h, w, oldh, oldw)
     }
@@ -45,15 +53,8 @@ open class VerticalSlider : Slider {
     private fun drawNeutralMark(canvas: Canvas) {
         if (valueTo == valueFrom) return
         val fraction = (neutralMarkValue - valueFrom) / (valueTo - valueFrom)
-        // Material Slider track side padding: max(defaultThumbRadius=10dp, minTouchTargetSize/2=24dp) = 24dp
-        val sidePadPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 24f, resources.displayMetrics
-        )
-        neutralMarkPaint.strokeWidth = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP, 3f, resources.displayMetrics
-        )
-        // In vertical view: y=0 is top (high value end), y=height is bottom (low value end)
-        val markY = sidePadPx + (1f - fraction) * (height - 2f * sidePadPx)
+        neutralMarkPaint.strokeWidth = neutralMarkStrokeWidthPx
+        val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
         canvas.drawLine(0f, markY, width.toFloat(), markY, neutralMarkPaint)
     }
 
