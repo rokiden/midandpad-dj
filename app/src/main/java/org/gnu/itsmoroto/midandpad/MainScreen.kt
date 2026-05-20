@@ -144,19 +144,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mControlBars.forEach { it.setLabelWidget(TextView(context)) }
         mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
 
-        setupEqSnapZone(deck1, R.id.slider_eq1)
-        setupEqSnapZone(deck1, R.id.slider_eq2)
-        setupEqSnapZone(deck1, R.id.slider_eq3)
-        setupEqSnapZone(deck2, R.id.slider_eq1)
-        setupEqSnapZone(deck2, R.id.slider_eq2)
-        setupEqSnapZone(deck2, R.id.slider_eq3)
-
         configControls()
-    }
-
-    private fun setupEqSnapZone(deck: ConstraintLayout, sliderId: Int) {
-        val slider = deck.findViewById<CCBar>(sliderId)
-        slider.neutralMarkEnabled = true
     }
 
     fun configControls (){
