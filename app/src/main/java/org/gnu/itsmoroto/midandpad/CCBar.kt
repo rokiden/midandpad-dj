@@ -24,6 +24,11 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
     var mRZ: Boolean = false
     var mZeroPos: Int = 0
     var mDefaultValue: Float = 64f
+        set(value) {
+            field = value
+            neutralMarkValue = value
+        }
+    var mSnapZone: Int = 0
     private var mCurrpos: Int = 0
     var misEdit: Boolean = false
     public fun setLabelWidget (label:TextView){
@@ -111,6 +116,24 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
                 removeOnChangeListener(this)
                 value = mZeroPos.toFloat()
                 addOnChangeListener(this)
+            }
+            else if (mSnapZone > 0) {
+                val snapTarget = if (mDefaultValue >= valueFrom && mDefaultValue <= valueTo) {
+                    mDefaultValue
+                } else {
+                    (valueFrom + valueTo) / 2f
+                }
+                if (Math.abs(value - snapTarget) <= mSnapZone.toFloat()) {
+                    val channel = if (mChannel != MidandpadDB.DEFAULT_CHANNEL) mChannel.toUByte()
+                        else MainActivity.mConfigParams.mDefaultChannel
+                    val command: UByte = MidiHelper.STATUS_CONTROL_CHANGE or channel
+                    val msg = ubyteArrayOf(mControl.toUByte(), snapTarget.toInt().toUByte())
+                    MainActivity.mMidi.send(command, msg.toByteArray())
+                    // Temporarily remove only this listener to avoid recursive callbacks.
+                    removeOnChangeListener(this)
+                    value = snapTarget
+                    addOnChangeListener(this)
+                }
             }
 
         }

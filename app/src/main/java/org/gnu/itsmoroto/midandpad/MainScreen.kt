@@ -3,7 +3,6 @@ package org.gnu.itsmoroto.midandpad
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
@@ -14,9 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainScreen (context: Context): ConstraintLayout(context) {
-
-    private val mEqResetDefaultValue = 64f
-
 
 
     private val mEditButton:ImageButton
@@ -35,6 +31,7 @@ class MainScreen (context: Context): ConstraintLayout(context) {
 
     companion object{
         public const val CONTROLSCOUNT = 8
+        private const val EQ_SNAP_ZONE = 4
         private lateinit var mEventButtons: Array<EventButton>
         private lateinit var mControlBars: Array<CCBar>
         fun clockTick (){
@@ -148,44 +145,20 @@ class MainScreen (context: Context): ConstraintLayout(context) {
         mControlBars.forEach { it.setLabelWidget(TextView(context)) }
         mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
 
-        setupEqResetButton(deck1, R.id.btn_R1, R.id.slider_eq1)
-        setupEqResetButton(deck1, R.id.btn_R2, R.id.slider_eq2)
-        setupEqResetButton(deck1, R.id.btn_R3, R.id.slider_eq3)
-        setupEqResetButton(deck2, R.id.btn_R1, R.id.slider_eq1)
-        setupEqResetButton(deck2, R.id.btn_R2, R.id.slider_eq2)
-        setupEqResetButton(deck2, R.id.btn_R3, R.id.slider_eq3)
+        setupEqSnapZone(deck1, R.id.slider_eq1)
+        setupEqSnapZone(deck1, R.id.slider_eq2)
+        setupEqSnapZone(deck1, R.id.slider_eq3)
+        setupEqSnapZone(deck2, R.id.slider_eq1)
+        setupEqSnapZone(deck2, R.id.slider_eq2)
+        setupEqSnapZone(deck2, R.id.slider_eq3)
 
         configControls()
     }
 
-    private fun setupEqResetButton(deck: ConstraintLayout, buttonId: Int, sliderId: Int) {
-        val resetButton = deck.findViewById<Button>(buttonId)
+    private fun setupEqSnapZone(deck: ConstraintLayout, sliderId: Int) {
         val slider = deck.findViewById<CCBar>(sliderId)
-
-        fun getTargetValue(): Float {
-            return if (slider.mDefaultValue >= slider.valueFrom && slider.mDefaultValue <= slider.valueTo) {
-                slider.mDefaultValue
-            } else {
-                mEqResetDefaultValue
-            }
-        }
-
-        fun updateResetButtonState(value: Float) {
-            val isDefaultValue = value == getTargetValue()
-            resetButton.isEnabled = !isDefaultValue
-            // resetButton.alpha = if (isDefaultValue) 0.5f else 1f
-        }
-
-        slider.addOnChangeListener { _, value, _ ->
-            updateResetButtonState(value)
-        }
-
-        resetButton.setOnClickListener {
-            slider.value = getTargetValue()
-            updateResetButtonState(slider.value)
-        }
-
-        updateResetButtonState(slider.value)
+        slider.mSnapZone = EQ_SNAP_ZONE
+        slider.neutralMarkEnabled = true
     }
 
     fun configControls (){
