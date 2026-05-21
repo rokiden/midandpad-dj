@@ -38,6 +38,7 @@ open class VerticalSlider : Slider {
     private var neutralMarkHalfThumbPx: Float = 0f
     private var centeredTrackEnabled: Boolean = false
     private var defaultTrackActiveTintList: ColorStateList? = null
+    private var restoredTrackActiveTintList: ColorStateList? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -109,17 +110,21 @@ open class VerticalSlider : Slider {
     private fun updateCenteredTrackState() {
         val shouldEnable = shouldUseCenteredTrack()
         if (shouldEnable && !centeredTrackEnabled) {
-            trackInactiveTintList?.let { trackActiveTintList = it }
+            restoredTrackActiveTintList = trackActiveTintList
+            // Hide Material's default min->thumb active segment; centered segment is drawn manually.
+            trackActiveTintList = trackInactiveTintList
             centeredTrackEnabled = true
         } else if (!shouldEnable && centeredTrackEnabled) {
-            trackActiveTintList = defaultTrackActiveTintList
+            (restoredTrackActiveTintList ?: defaultTrackActiveTintList)?.let { trackActiveTintList = it }
             centeredTrackEnabled = false
+            restoredTrackActiveTintList = null
         }
     }
 
     private fun drawCenteredTrack(canvas: Canvas) {
         if (valueTo == valueFrom) return
-        centeredTrackPaint.color = defaultTrackActiveTintList?.defaultColor
+        centeredTrackPaint.color = (restoredTrackActiveTintList
+            ?: defaultTrackActiveTintList)?.defaultColor
             ?: (trackActiveTintList?.defaultColor ?: neutralMarkPaint.color)
 
         val thumbFraction = (value - valueFrom) / (valueTo - valueFrom)
