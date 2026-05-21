@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import com.google.android.material.slider.Slider
 import kotlin.math.roundToInt
 
@@ -132,12 +131,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
             editMe()
         }
         else if (!MainActivity.mMidi.haveConnection()){
-            AlertDialog.Builder(context, androidx.appcompat.R.style.AlertDialog_AppCompat)
-                .setTitle("MIDI error")
-                .setMessage(context.getString(R.string.nomidiconn))
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(R.string.sok) { _, _ -> }
-                .show()
+            showErrorDialog(context, "MIDI error", context.getString(R.string.nomidiconn))
             return
         }
         else {
