@@ -27,18 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/btn_R1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="56dip"
-                android:minHeight="60dip"
-                android:text="R"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/slider_eq1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq1"
                 android:layout_width="wrap_content"
@@ -51,8 +39,9 @@
                 app:labelBehavior="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_R1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:snapZone="@integer/ccbar_snap_zone"
                 app:tickVisible="false"
                 app:thumbHeight="@dimen/ccbar_thumb_height"
                 app:trackHeight="@dimen/ccbar_track_height" />
@@ -68,18 +57,6 @@
             app:layout_constraintStart_toEndOf="@+id/block_eq1"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/btn_R2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="56dip"
-                android:minHeight="60dip"
-                android:text="R"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/slider_eq2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq2"
                 android:layout_width="wrap_content"
@@ -92,8 +69,9 @@
                 app:labelBehavior="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_R2"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:snapZone="@integer/ccbar_snap_zone"
                 app:tickVisible="false"
                 app:thumbHeight="@dimen/ccbar_thumb_height"
                 app:trackHeight="@dimen/ccbar_track_height" />
@@ -109,18 +87,6 @@
             app:layout_constraintStart_toEndOf="@+id/block_eq2"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/btn_R3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="56dip"
-                android:minHeight="60dip"
-                android:text="R"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/slider_eq3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq3"
                 android:layout_width="wrap_content"
@@ -133,8 +99,9 @@
                 app:labelBehavior="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_R3"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:snapZone="@integer/ccbar_snap_zone"
                 app:tickVisible="false"
                 app:thumbHeight="@dimen/ccbar_thumb_height"
                 app:trackHeight="@dimen/ccbar_track_height" />
