@@ -72,8 +72,7 @@ open class VerticalSlider : Slider {
         val halfThumb = neutralMarkHalfThumbPx
         if (isHorizontal) {
             val markX = neutralMarkSidePadPx + fraction * (width - 2f * neutralMarkSidePadPx)
-            val centerY = height / 2f
-            val rect = RectF(markX - halfThumb, centerY - halfThumb, markX + halfThumb, centerY + halfThumb)
+            val rect = RectF(markX - halfThumb, 0f, markX + halfThumb, height.toFloat())
             canvas.drawRoundRect(rect, halfThumb, halfThumb, neutralMarkPaint)
         } else {
             val markY = neutralMarkSidePadPx + (1f - fraction) * (height - 2f * neutralMarkSidePadPx)
