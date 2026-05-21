@@ -138,7 +138,7 @@ class MidandpadDB//else throw exception
 
             var number = 1
 
-            val eqNames = listOf("EQ Lo", "EQ Mid", "EQ Hi")
+            val eqNames = listOf("EQ Lo", "EQ Mid", "EQ Hi", "CFX")
             for (deck in 1..2) {
                 for (barName in eqNames) {
                     values.put("number", number)
