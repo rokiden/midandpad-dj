@@ -143,6 +143,8 @@ class MainScreen (context: Context): ConstraintLayout(context) {
             mixer.findViewById(R.id.slider_deck_2) as CCBar
         )
 
+        mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
+
         // Wire layout labels for EQ/CFX bars in each deck
         val deckViews = listOf(deck1, deck2)
         val eqLabelIds = listOf(R.id.label_eq1, R.id.label_eq2, R.id.label_eq3, R.id.label_eq4)
@@ -152,9 +154,8 @@ class MainScreen (context: Context): ConstraintLayout(context) {
             }
         }
         // Mixer bars use dummy labels (not shown in layout)
-        mControlBars[8].setLabelWidget(TextView(context))
-        mControlBars[9].setLabelWidget(TextView(context))
-        mControlBars.forEachIndexed { i, b -> b.mNumber = i + 1 }
+        val deckBarCount = deckViews.size * eqLabelIds.size
+        mControlBars.filter { it.mNumber > deckBarCount }.forEach { it.setLabelWidget(TextView(context)) }
 
         configControls()
     }
