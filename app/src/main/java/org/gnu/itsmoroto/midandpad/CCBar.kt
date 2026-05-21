@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.slider.Slider
 import kotlin.math.roundToInt
 
@@ -58,8 +59,11 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
     }
 
     private fun usesCenteredMidiMapping(): Boolean {
-        return valueFrom < 0f && valueTo > 0f &&
-            kotlin.math.abs((valueTo - valueFrom) - 127f) < MIDI_CENTERED_EPSILON
+        if (valueFrom >= 0f || valueTo <= 0f) {
+            return false
+        }
+        val discreteSteps = valueTo.roundToInt() - valueFrom.roundToInt() + 1
+        return discreteSteps == 128
     }
 
     fun sliderToStoredValue(sliderValue: Float): Int {
@@ -89,7 +93,6 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         const val PITCH_BEND = -1 //zero on msb 64 and lsb 0 (msb and lsb are 7bit bytes)
         const val PITCHCENTER = 0x2000
         const val PITCHCENTERU: UByte = 0x40U
-        private const val MIDI_CENTERED_EPSILON = 0.001f
     }
 
     @OptIn(ExperimentalUnsignedTypes::class)
@@ -129,11 +132,12 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
             editMe()
         }
         else if (!MainActivity.mMidi.haveConnection()){
-            org.gnu.itsmoroto.midandpad.showErrorDialog(
-                context,
-                "MIDI error",
-                context.getString(R.string.nomidiconn)
-            )
+            AlertDialog.Builder(context, androidx.appcompat.R.style.AlertDialog_AppCompat)
+                .setTitle("MIDI error")
+                .setMessage(context.getString(R.string.nomidiconn))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(R.string.sok) { _, _ -> }
+                .show()
             return
         }
         else {
@@ -195,7 +199,15 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         if (control != PITCH_BEND){
             valueFrom = mBaseValueFrom
             valueTo = mBaseValueTo
-            value = value.coerceIn(valueFrom, valueTo)
+            value = if (mControl == PITCH_BEND) {
+                if (usesCenteredMidiMapping()) {
+                    storedToSliderValue(64)
+                } else {
+                    64f.coerceIn(valueFrom, valueTo)
+                }
+            } else {
+                value.coerceIn(valueFrom, valueTo)
+            }
         }
         else {
             valueFrom = 0f
