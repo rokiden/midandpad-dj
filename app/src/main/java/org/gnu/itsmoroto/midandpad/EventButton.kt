@@ -397,6 +397,7 @@ class EventButton : MaterialButton {
         isAllCaps = false
         insetTop = 0
         insetBottom = 0
+        setPadding(0, 0, 0, 0)
         cornerRadius = resources.getDimensionPixelSize(R.dimen.eventbutton_corner_radius)
         setOnClickListener { _ ->
             onclick()

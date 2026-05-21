@@ -4,4 +4,8 @@
         <attr name="offColor" format="color"/>
         <attr name="onColor" format="color"/>
     </declare-styleable>
+    <declare-styleable name="CCBar">
+        <attr name="snapZone" format="integer"/>
+        <attr name="horizontal" format="boolean"/>
+    </declare-styleable>
 </resources>
