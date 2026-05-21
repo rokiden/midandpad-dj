@@ -320,11 +320,11 @@ class MidandpadDB//else throw exception
             val number = cursor.getInt(0) -1
             bars[number].mNumber = number + 1
             bars[number].setName(cursor.getString(1))
+            bars[number].setControl(cursor.getInt(2))
             bars[number].mRZ = (cursor.getInt(3) == 1)
             bars[number].mZeroPos = cursor.getInt(4)
-            bars[number].mDefaultValue = cursor.getInt(5).toFloat()
+            bars[number].mDefaultValue = bars[number].storedToSliderValue(cursor.getInt(5))
             bars[number].value = bars[number].mDefaultValue
-            bars[number].setControl(cursor.getInt(2))
         }while (cursor.moveToNext())
         cursor.close()
         db.close()
@@ -493,7 +493,7 @@ class MidandpadDB//else throw exception
                 newvalues.put("control", b.getControl())
                 newvalues.put("rz", b.mRZ)
                 newvalues.put("zeropos", b.mZeroPos)
-                newvalues.put("defval", b.value)
+                newvalues.put("defval", b.sliderToStoredValue(b.value))
                 if (db.update("Bars", newvalues, "presetId=? and number=?",
                     arrayOf(id.toString(), number.toString())) == 0
                     ){
@@ -588,7 +588,7 @@ class MidandpadDB//else throw exception
                 values.put("control", b.getControl())
                 values.put("rz", b.mRZ)
                 values.put("zeropos", b.mZeroPos)
-                values.put("defval", b.value)
+                values.put("defval", b.sliderToStoredValue(b.value))
                 db.insertOrThrow("Bars", null, values)
             }
         }

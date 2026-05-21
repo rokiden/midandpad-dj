@@ -5,11 +5,16 @@ import android.util.AttributeSet
 import android.util.Log
 import android.widget.TextView
 import com.google.android.material.slider.Slider
+import kotlin.math.roundToInt
 
 class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListener {
     private lateinit var mLabel: TextView
+    private var mBaseValueFrom: Float = 0f
+    private var mBaseValueTo: Float = 127f
     constructor(context: Context?): super (context!!){
         setOnClick()
+        mBaseValueFrom = valueFrom
+        mBaseValueTo = valueTo
     }
     constructor(context: Context?, attributeSet: AttributeSet): super (context!!, attributeSet){
         val a = context.obtainStyledAttributes(attributeSet, R.styleable.CCBar)
@@ -18,6 +23,8 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         a.recycle()
         neutralMarkEnabled = mSnapZone > 0
         setOnClick ()
+        mBaseValueFrom = valueFrom
+        mBaseValueTo = valueTo
     }
 
 
@@ -50,6 +57,33 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         addOnSliderTouchListener(this)
     }
 
+    private fun usesCenteredMidiMapping(): Boolean {
+        return valueFrom < 0f && valueTo > 0f &&
+            kotlin.math.abs((valueTo - valueFrom) - 127f) < 0.001f
+    }
+
+    fun sliderToStoredValue(sliderValue: Float): Int {
+        val rounded = sliderValue.roundToInt()
+        if (usesCenteredMidiMapping()) {
+            val from = valueFrom.roundToInt()
+            return (rounded - from).coerceIn(0, 127)
+        }
+        return rounded
+    }
+
+    fun storedToSliderValue(storedValue: Int): Float {
+        if (usesCenteredMidiMapping()) {
+            val from = valueFrom.roundToInt()
+            val to = valueTo.roundToInt()
+            return (from + storedValue.coerceIn(0, 127)).coerceIn(from, to).toFloat()
+        }
+        return storedValue.toFloat().coerceIn(valueFrom, valueTo)
+    }
+
+    private fun sliderToCcValue(sliderValue: Float): Int {
+        return sliderToStoredValue(sliderValue).coerceIn(0, 127)
+    }
+
     companion object {
         const val DO_NOTHING = -2
         const val PITCH_BEND = -1 //zero on msb 64 and lsb 0 (msb and lsb are 7bit bytes)
@@ -66,7 +100,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
                 channel = mChannel.toUByte()
             if (mControl != PITCH_BEND) {
                 val command: UByte = MidiHelper.STATUS_CONTROL_CHANGE or channel
-                val msg = ubyteArrayOf(mControl.toUByte(), value.toInt().toUByte()
+                val msg = ubyteArrayOf(mControl.toUByte(), sliderToCcValue(value).toUByte()
                 )
                 MainActivity.mMidi.send(command, msg.toByteArray())
             }
@@ -132,7 +166,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
                     val channel = if (mChannel != MidandpadDB.DEFAULT_CHANNEL) mChannel.toUByte()
                         else MainActivity.mConfigParams.mDefaultChannel
                     val command: UByte = MidiHelper.STATUS_CONTROL_CHANGE or channel
-                    val msg = ubyteArrayOf(mControl.toUByte(), snapTarget.toInt().coerceIn(0, 127).toUByte())
+                    val msg = ubyteArrayOf(mControl.toUByte(), sliderToCcValue(snapTarget).toUByte())
                     MainActivity.mMidi.send(command, msg.toByteArray())
                     // Temporarily remove only this listener to avoid recursive callbacks.
                     removeOnChangeListener(this)
@@ -154,9 +188,12 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
 
     fun setControl (control: Int) {
         if (control != PITCH_BEND){
-            valueTo = 0x7F.toFloat()
+            valueFrom = mBaseValueFrom
+            valueTo = mBaseValueTo
+            value = value.coerceIn(valueFrom, valueTo)
         }
         else {
+            valueFrom = 0f
             valueTo = 0x3FFF.toFloat()
             value = PITCHCENTER.toFloat()
         }
