@@ -59,7 +59,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
 
     private fun usesCenteredMidiMapping(): Boolean {
         return valueFrom < 0f && valueTo > 0f &&
-            kotlin.math.abs((valueTo - valueFrom) - 127f) < 0.001f
+            kotlin.math.abs((valueTo - valueFrom) - 127f) < MIDI_CENTERED_EPSILON
     }
 
     fun sliderToStoredValue(sliderValue: Float): Int {
@@ -89,6 +89,7 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         const val PITCH_BEND = -1 //zero on msb 64 and lsb 0 (msb and lsb are 7bit bytes)
         const val PITCHCENTER = 0x2000
         const val PITCHCENTERU: UByte = 0x40U
+        private const val MIDI_CENTERED_EPSILON = 0.001f
     }
 
     @OptIn(ExperimentalUnsignedTypes::class)
@@ -128,7 +129,11 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
             editMe()
         }
         else if (!MainActivity.mMidi.haveConnection()){
-            showErrorDialog(context, "MIDI error", context.getString(R.string.nomidiconn))
+            org.gnu.itsmoroto.midandpad.showErrorDialog(
+                context,
+                "MIDI error",
+                context.getString(R.string.nomidiconn)
+            )
             return
         }
         else {
