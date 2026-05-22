@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Widget.Midandpad.CCBar" parent="Widget.Material3.Slider">
+        <item name="labelBehavior">gone</item>
+        <item name="tickVisible">false</item>
+        <item name="trackHeight">@dimen/ccbar_track_height</item>
+        <item name="thumbHeight">@dimen/ccbar_thumb_height</item>
+        <item name="snapZone">@integer/ccbar_snap_zone</item>
+        <item name="trackCornerSize">4dp</item>
+        <item name="trackStopIndicatorSize">0dp</item>
+    </style>
+
+    <style name="Widget.Midandpad.CCBar.Horizontal" parent="Widget.Midandpad.CCBar">
+        <item name="centered">true</item>
+        <item name="horizontal">true</item>
+    </style>
+
+    <style name="Widget.Midandpad.CCBar.Vertical" parent="Widget.Midandpad.CCBar">
+        <item name="centered">false</item>
+        <item name="horizontal">false</item>
+    </style>
+
     <style name="statuscheckstyle">
         <item name="android:button">@drawable/statuscheckdrawable</item>
         <item name="android:background">@android:color/transparent</item>

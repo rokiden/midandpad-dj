@@ -29,6 +29,7 @@
 
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq3"
+                style="@style/Widget.Midandpad.CCBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="slider_eq3"
@@ -36,16 +37,9 @@
                 android:value="64"
                 android:valueFrom="0"
                 android:valueTo="127"
-                app:horizontal="true"
-                app:centered="true"
-                app:labelBehavior="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:snapZone="@integer/ccbar_snap_zone"
-                app:tickVisible="false"
-                app:thumbHeight="@dimen/ccbar_thumb_height"
-                app:trackHeight="@dimen/ccbar_track_height" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/label_eq3"
@@ -71,6 +65,7 @@
 
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq2"
+                style="@style/Widget.Midandpad.CCBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="slider_eq2"
@@ -78,16 +73,9 @@
                 android:value="64"
                 android:valueFrom="0"
                 android:valueTo="127"
-                app:horizontal="true"
-                app:centered="true"
-                app:labelBehavior="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:snapZone="@integer/ccbar_snap_zone"
-                app:tickVisible="false"
-                app:thumbHeight="@dimen/ccbar_thumb_height"
-                app:trackHeight="@dimen/ccbar_track_height" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/label_eq2"
@@ -113,6 +101,7 @@
 
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq1"
+                style="@style/Widget.Midandpad.CCBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="slider_eq1"
@@ -120,16 +109,9 @@
                 android:value="64"
                 android:valueFrom="0"
                 android:valueTo="127"
-                app:horizontal="true"
-                app:centered="true"
-                app:labelBehavior="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:snapZone="@integer/ccbar_snap_zone"
-                app:tickVisible="false"
-                app:thumbHeight="@dimen/ccbar_thumb_height"
-                app:trackHeight="@dimen/ccbar_track_height" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/label_eq1"
@@ -155,6 +137,7 @@
 
             <org.gnu.itsmoroto.midandpad.CCBar
                 android:id="@+id/slider_eq4"
+                style="@style/Widget.Midandpad.CCBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="slider_eq4"
@@ -162,16 +145,9 @@
                 android:value="64"
                 android:valueFrom="0"
                 android:valueTo="127"
-                app:horizontal="true"
-                app:centered="true"
-                app:labelBehavior="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tickVisible="false"
-                app:snapZone="@integer/ccbar_snap_zone"
-                app:thumbHeight="@dimen/ccbar_thumb_height"
-                app:trackHeight="@dimen/ccbar_track_height" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/label_eq4"
