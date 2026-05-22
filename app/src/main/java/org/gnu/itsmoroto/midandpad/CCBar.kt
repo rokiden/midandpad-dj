@@ -16,7 +16,6 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
         mSnapZone = a.getInt(R.styleable.CCBar_snapZone, 0)
         isHorizontal = a.getBoolean(R.styleable.CCBar_horizontal, false)
         a.recycle()
-        neutralMarkEnabled = mSnapZone > 0
         setOnClick ()
     }
 
@@ -29,10 +28,6 @@ class CCBar : VerticalSlider, Slider.OnChangeListener, Slider.OnSliderTouchListe
     var mRZ: Boolean = false
     var mZeroPos: Int = 0
     var mDefaultValue: Float = 64f
-        set(value) {
-            field = value
-            neutralMarkValue = value
-        }
     var mSnapZone: Int = 0
     private var mCurrpos: Int = 0
     var misEdit: Boolean = false
